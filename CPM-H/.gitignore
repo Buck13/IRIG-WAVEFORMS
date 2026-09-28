@@ -1,0 +1,10 @@
+.venv/
+.uv-cache/
+.jupyter/
+.ipython/
+.mplconfig/
+__pycache__/
+.tools/
+.publish/
+hardware/work-obj08.cf
+.ipynb_checkpoints/
