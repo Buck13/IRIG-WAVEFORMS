@@ -41,3 +41,9 @@ The existing BPSK design has not been modified.
 Both execute independently. Notebook 2 adds integer sample traces, width bounds,
 accepted-sample behavior, proposed HDL interfaces and a VHDL phase-update sketch.
 The notebook sketch is explanatory; the implemented VHDL core is in `hdl/pcm_fm_core.vhd`.
+
+## Standalone synthesis result
+
+The routed XC7Z010 core uses 692 LUTs, 737 registers, 4 BRAM tiles and 2 DSPs.
+Internal timing passes at the 100 MHz target; boundary hold violations remain
+in the isolated build. See [the complete report](results/standalone/RESULT.md).

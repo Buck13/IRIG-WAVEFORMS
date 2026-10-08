@@ -46,3 +46,9 @@ The local waveform database is `build/xsim/pcm_fm.wdb`. Run
 `./show-waveforms.ps1` to open the saved clock/reset/input/valid/I/Q/phase signals
 in the XSIM GUI. Zoom into the first microsecond to see reset and pipeline fill.
 Generated simulation files remain local under ignored `build/`.
+
+## Standalone implementation update
+
+Synthesis and standalone routing have now been measured: see
+[resource and timing results](results/standalone/RESULT.md). Full Pluto timing
+closure and integration remain pending.
