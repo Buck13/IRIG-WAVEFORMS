@@ -31,7 +31,7 @@ files in `results/reference-sha256.json`.
 The VHDL core now passes exact XSIM comparison over 268280 samples. See
 [HDL architecture](HDL.md) and [simulation result](results/XSIM-RESULT.md).
 Full Pluto integration now passes its timing and DRC gates. See
-[the integrated result](INTEGRATION-RESULT.md). Physical PCM-FM transmission remains pending.
+[the integrated result](INTEGRATION-RESULT.md). Physical PCM-FM transmission now passes the attenuated loopback.
 The existing BPSK design has not been modified.
 
 ## Two-notebook reading order
@@ -55,3 +55,8 @@ The isolated PCM-FM image is built and verified: 11965 LUTs, 19561 registers,
 6.5 BRAM tiles and 74 DSPs. Setup +0.910 ns; hold +0.014 ns. See
 [INTEGRATION-RESULT.md](INTEGRATION-RESULT.md) for remaining constraints/warnings,
 artifact locations and the pending hardware test.
+
+## Hardware result
+
+[Physical loopback result](../captures/pcm-fm-hardware-20261009-072118/RESULT.md): 126975 recovered bits,
+zero errors (118783 held-out); deviation +/-109.350 kHz. TX muted after capture.

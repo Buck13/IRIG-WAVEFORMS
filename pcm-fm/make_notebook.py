@@ -255,7 +255,7 @@ status_note = dict(cell_type='markdown',metadata={},source=[
     '[architecture and timing](HDL.md). XSIM now passes 268280 exact I/Q/phase '
     'comparisons including stalls and reset. Its measured simulation latency is '
     '11 clocks. Statements below about future HDL refer to the original model stage. '
-    'Full Pluto integration now passes timing/DRC gates; see INTEGRATION-RESULT.md. Physical PCM-FM transmission remains pending.\n'
+    'Full Pluto integration now passes timing/DRC gates; see INTEGRATION-RESULT.md. Physical PCM-FM loopback now passes: 126975 bits, zero mismatches, 118783 held-out; see ../captures/pcm-fm-hardware-20261009-072118/RESULT.md.\n'
 ])
 high_cells.insert(1,status_note)
 low_cells.insert(1,dict(status_note))

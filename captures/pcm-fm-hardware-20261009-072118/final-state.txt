@@ -1,0 +1,7 @@
+operating
+0x00000000
+-89.750000 dB
+-89.750000 dB
+0
+
+Additional named-device readback: DDS altvoltage0 raw=0; TX buffer=0; RX buffer=0.

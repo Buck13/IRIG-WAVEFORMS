@@ -143,3 +143,10 @@ timing/DRC gates. Adapter XSIM matched 268280 samples. The image uses 74/80 DSPs
 11965/17600 LUTs, 19561/35200 registers and 6.5/60 BRAM tiles.
 BIT/BIN/XSA and FPGA-manager conversion are verified. No PCM-FM hardware load or
 RF test has been performed; the BPSK physical-test milestone remains separate.
+
+## PCM-FM hardware verified
+
+The [PCM-FM attenuated loopback](captures/pcm-fm-hardware-20261009-072118/RESULT.md) passed on 2026-10-09:
+126975 recovered bits with zero mismatches, including 118783 held-out bits.
+Measured steady-run deviation was +/-109.350 kHz versus +/-109.375 kHz nominal.
+TX is muted and the source deselected; the custom image remains volatile.

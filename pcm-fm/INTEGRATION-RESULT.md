@@ -1,3 +1,5 @@
+> Hardware update, 2026-10-09: [PCM-FM loopback passed](../captures/pcm-fm-hardware-20261009-072118/RESULT.md). The following records the preceding build milestone.
+
 # Integrated PCM-FM Pluto build
 
 Status verified 2026-10-09: adapter XSIM passed and the full XC7Z010 Pluto image

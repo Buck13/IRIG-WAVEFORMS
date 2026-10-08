@@ -1,0 +1,22 @@
+{
+  "sample_offset": 7,
+  "lag": 12595,
+  "polarity": 1,
+  "training_correlation": 0.9890826605157187,
+  "sample_rate_hz": 2500000,
+  "bit_rate": 312500.0,
+  "training_symbols": 8192,
+  "training_errors": 0,
+  "held_out_symbols": 118783,
+  "held_out_errors": 0,
+  "total_symbols": 126975,
+  "total_errors": 0,
+  "fitted_frequency_offset_hz": 11.813015866144438,
+  "fitted_symbol_gain_hz": 92593.48641714564,
+  "plateau_deviation_hz": 109350.46628005055,
+  "expected_deviation_hz": 109375.0,
+  "plateau_samples": 1982,
+  "plateau_positive_median_hz": 109335.22904171364,
+  "plateau_negative_median_hz": -109365.70351838747,
+  "method": "one-bit phase difference; 8192-symbol timing/PN alignment training; fixed held-out evaluation"
+}

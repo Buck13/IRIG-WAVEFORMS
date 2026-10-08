@@ -1,0 +1,14 @@
+{
+  "dma_zero.bin": {
+    "bytes": 8388608,
+    "sha256": "6ef221d3ff83ac1f27f8f9c2e60ebee5cf84c5e1b7285c7ec266e89d9f668716"
+  },
+  "pcm_fm_off.bin": {
+    "bytes": 8388608,
+    "sha256": "631ea80525ab164a355007d8328904f14282efdfecf15bef6df9b85f56383962"
+  },
+  "pcm_fm_on.bin": {
+    "bytes": 8388608,
+    "sha256": "ee5ce6493413a50ce484c446e25d506546b9ec332a38a64554b291659881743e"
+  }
+}

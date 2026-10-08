@@ -1,0 +1,39 @@
+{
+  "captures": {
+    "dma_zero": {
+      "RX1": {
+        "rms_counts": 2.076212207857485,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 2.564646424450567,
+        "clipped": 0
+      }
+    },
+    "pcm_fm_on": {
+      "RX1": {
+        "rms_counts": 2.0781628968167163,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 20.24998181827265,
+        "clipped": 0
+      }
+    },
+    "pcm_fm_off": {
+      "RX1": {
+        "rms_counts": 2.070982136454491,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 2.578957664289701,
+        "clipped": 0
+      }
+    }
+  },
+  "cleanup_errors": [],
+  "fs": 2500000,
+  "lo": 915000000,
+  "tx_gain": -40,
+  "rx_gain": 30
+}
