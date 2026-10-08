@@ -27,9 +27,23 @@ nrz, shaped, phase, ideal, rows = traces
 print(json.dumps(metrics, indent=2))''')
 md('''## 1. Bits become a smooth frequency command
 
-Bit 0 maps to −1; bit 1 maps to +1. Each level is held for eight accepted samples. A causal 65-tap Hamming-windowed sinc FIR smooths transitions, with 32 samples (four bits) of group delay. Startup history is zero.
+Bit 0 maps to −1; bit 1 maps to +1, held for eight accepted samples.
+The selected causal 65-tap FIR approximates a sixth-order Bessel filter with
+half-power corner at 0.7 Rb = 218.75 kHz. The normalized analog poles come from
+[RCC 106-22 Chapter 2, Table 2-3](https://www.irig106.org/docs/106-22/chapter2.pdf).
+Sixth order is our design choice among the orders documented there.
 
-The chosen ideal sinc cutoff is 0.7 Rb = 218.75 kHz, approximately the −6 dB point of this FIR. It is **not** a specified −3 dB telemetry filter bandwidth. Its overshoot is preserved rather than clipped; nominal deviation refers to steady constant bits. Filter compliance and spectral-mask selection remain future work.''')
+The analog impulse response is sampled, truncated and DC-normalized. A small
+pole-scale correction restores the digital half-power corner before coefficient
+quantization. This is a Bessel-derived FIR, not a literal analog filter or an
+exact linear-phase FIR: coefficients are asymmetric and group delay varies with
+frequency (about 4.918 samples at DC). Startup history is zero.
+
+The quantized corner is about 218746.5 Hz; passband magnitude error relative to
+the analog target is below 0.00013 dB. PN15 excursions reach about 1.014 times
+nominal deviation. These are model results; hardware and RF-mask validation remain
+pending. The previous windowed-sinc prototype is retained only for comparison.
+''')
 code('''fig, ax = plt.subplots(3,1,figsize=(11,8),constrained_layout=True)
 t = np.arange(512)/SPS
 ax[0].step(t,nrz[:512],where='post',label='held NRZ'); ax[0].plot(t,shaped[:512],label='causal FIR'); ax[0].legend()
@@ -81,7 +95,7 @@ The executed checks cover a full 32767-bit PN15 period, sequence balance and rep
 
 `results/hdl_vectors.csv` contains 4096 accepted samples, with NRZ input, FIR sum, increment, phase and I/Q expected outputs. `coefficients_q17.txt` and `sine_lut_s16.txt` are the exact integer tables. `metrics.json` records measured errors. Run `python pcm_fm.py` to regenerate checks and vectors; run `python make_notebook.py` to regenerate this executed notebook and plots.
 
-**Next, not implemented here:** agree the shaping response; schedule FIR/phase/ROM VHDL; compare HDL samples against these vectors including stalls and latency; integrate with the proven Pluto TX adapter; then use Vivado timing/resource reports and a new attenuated cable test. The previous BPSK image is untouched.''')
+**Next, not implemented here:** use the frozen Bessel-derived FIR reference; schedule FIR/phase/ROM VHDL; compare HDL samples against these vectors including stalls and latency; integrate with the proven Pluto TX adapter; then use Vivado timing/resource reports and a new attenuated cable test. The previous BPSK image is untouched.''')
 
 # Split the existing narrative into independently executable notebooks.
 all_cells = cells[:]

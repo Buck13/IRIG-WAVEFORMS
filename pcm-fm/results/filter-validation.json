@@ -1,0 +1,11 @@
+{
+  "reference": "RCC 106-22 Chapter 2, Table 2-3, sixth-order Bessel",
+  "target_corner_hz": 218750.0,
+  "quantized_half_power_corner_hz": 218746.5096212875,
+  "passband_max_magnitude_error_db": 0.00012998709333705542,
+  "passband_max_phase_error_rad": 0.00019062549181186354,
+  "old_transition_peak": 1.1673164063226373,
+  "new_transition_peak": 1.013702392578125,
+  "dc_group_delay_samples": 4.917671203613281,
+  "fir_abs_sum_q17": 133424
+}

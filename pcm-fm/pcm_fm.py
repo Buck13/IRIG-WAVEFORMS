@@ -20,17 +20,38 @@ def pn15(count, seed=0x7fff):
         state = (state >> 1) | (((state >> 14 ^ state) & 1) << 14)
     return np.array(bits, dtype=np.int64)
 
+def bessel_poles():
+    # RCC 106-22 Ch.2 Table 2-3, sixth-order, normalized -3 dB poles.
+    positive = np.array([-.930657+1.661863j, -1.381858+.971472j,
+                         -1.571490+.320896j])
+    return np.concatenate((positive, positive.conjugate()))
+
+def analog_response(f):
+    poles = bessel_poles() * (2*np.pi*.7*RB)
+    return np.prod(-poles) / np.prod(2j*np.pi*np.asarray(f)[...,None]-poles,axis=-1)
+
 def coefficients():
-    # 65-tap causal linear-phase windowed-sinc prototype; .7 Rb is
-    # the ideal sinc cutoff, approximately -6 dB, NOT a specified -3 dB BW.
-    n = np.arange(65) - 32
-    fc = .7 * RB / FS
-    taps = 2 * fc * np.sinc(2 * fc * n) * np.hamming(65)
-    return taps / taps.sum()
+    # Impulse-invariant sampling of the six-pole analog response, truncated
+    # to 65 taps. Adjust pole scale to recover the digital -3 dB corner.
+    # This causal FIR is NOT symmetric and does not have constant group delay.
+    def design(scale):
+        poles = bessel_poles() * (2*np.pi*.7*RB*scale)
+        residues = np.array([np.prod(-poles)/np.prod(p-poles[np.arange(6)!=k])
+                             for k,p in enumerate(poles)])
+        h = np.real(np.exp(np.arange(65)[:,None]/FS*poles) @ residues)/FS
+        return h/h.sum()
+    w = np.exp(-2j*np.pi*.7*RB/FS*np.arange(65))
+    lo,hi = .98,1.02
+    for _ in range(48):
+        mid = (lo+hi)/2
+        if abs(design(mid) @ w) < 1/np.sqrt(2): lo=mid
+        else: hi=mid
+    return design((lo+hi)/2)
 
 def quantized_coefficients():
-    q = np.rint(coefficients() * (1 << FRAC)).astype(np.int64)
-    q[32] += (1 << FRAC) - int(q.sum())
+    h = coefficients()
+    q = np.rint(h * (1 << FRAC)).astype(np.int64)
+    q[np.argmax(abs(h))] += (1 << FRAC) - int(q.sum())
     return q
 
 def round_shift(value, shift):
@@ -115,7 +136,7 @@ def validate(out):
     phase_error = np.angle(actual*np.conj(ideal))
     metrics = dict(symbols=len(bits),samples=len(nrz),sample_rate_hz=FS,bit_rate=RB,
         nominal_deviation_hz=DEVIATION,modulation_index=2*DEVIATION/RB,
-        fir_delay_samples=32,coefficient_sum=int(quantized_coefficients().sum()),
+        fir_dc_delay_samples=float(np.arange(65) @ coefficients()),coefficient_sum=int(quantized_coefficients().sum()),
         max_phase_error_rad=float(np.max(abs(phase_error))),
         relative_iq_rms_error=float(np.sqrt(np.mean(abs(actual-ideal)**2))/AMPLITUDE),
         max_envelope_error_counts=float(np.max(abs(abs(actual)-AMPLITUDE))),

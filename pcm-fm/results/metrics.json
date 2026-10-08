@@ -5,12 +5,12 @@
   "bit_rate": 312500.0,
   "nominal_deviation_hz": 109375.0,
   "modulation_index": 0.7,
-  "fir_delay_samples": 32,
+  "fir_dc_delay_samples": 4.917587439119872,
   "coefficient_sum": 131072,
-  "max_phase_error_rad": 0.0016344097660406518,
-  "relative_iq_rms_error": 0.0008901413363733306,
-  "max_envelope_error_counts": 0.6809550872858381,
-  "shaped_peak": 1.2645379286419451,
+  "max_phase_error_rad": 0.0015499643388262702,
+  "relative_iq_rms_error": 0.0008869697614978177,
+  "max_envelope_error_counts": 0.6436030815166305,
+  "shaped_peak": 1.0137229759911461,
   "increment_gain": 187904819,
   "checks": "PN period/balance; constant +/-; alternating; FIR convolution; phase wrap; random stalls; reset"
 }

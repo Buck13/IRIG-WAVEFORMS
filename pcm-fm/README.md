@@ -18,15 +18,15 @@ Opening/rerunning notebook cells interactively additionally requires a Jupyter
 frontend and Python kernel. Generating the executed notebook does not.
 
 Defaults: 2.5 MS/s, 312.5 kbit/s, PN15, h=0.7, nominal deviation 109375 Hz,
-65-tap prototype FIR, 32-bit phase accumulator and 12-bit sine-table address.
-The FIR sinc cutoff at 0.7 Rb is approximately a -6 dB point, not a specified
-telemetry -3 dB bandwidth. Transient overshoot reaches about 1.265 times nominal
-command. No spectral-mask compliance is claimed.
+65-tap Bessel-derived FIR, 32-bit phase accumulator and 12-bit sine-table address.
+The selected sixth-order analog target comes from RCC 106-22 Chapter 2 Table 2-3.
+See [FILTER-DECISION.md](FILTER-DECISION.md) for selection and measured tolerances.
 
-Full-period validation: 32767 symbols / 262136 samples; RMS complex sample error
-0.089014% versus the floating reference; maximum phase error 0.001635 rad;
-maximum envelope error 0.681 count. Also checks constant and alternating inputs,
-streaming FIR versus convolution, phase wrap, reset and sample-enable stalls.
+Run `python pcm_fm.py`, `python validate_filter.py`, then `python make_notebook.py`.
+Full-period validation covers 32767 symbols / 262136 samples. Updated numeric
+results are in `results/metrics.json`; filter comparisons are in
+`results/filter-validation.json`. SHA-256 hashes freeze the coefficient/ROM/vector
+files in `results/reference-sha256.json`.
 
 These results verify the software arithmetic model only. HDL, pipeline scheduling,
 Pluto integration, resource usage and physical PCM-FM transmission remain pending.
