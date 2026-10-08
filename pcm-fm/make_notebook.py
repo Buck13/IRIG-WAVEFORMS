@@ -82,20 +82,159 @@ The executed checks cover a full 32767-bit PN15 period, sequence balance and rep
 `results/hdl_vectors.csv` contains 4096 accepted samples, with NRZ input, FIR sum, increment, phase and I/Q expected outputs. `coefficients_q17.txt` and `sine_lut_s16.txt` are the exact integer tables. `metrics.json` records measured errors. Run `python pcm_fm.py` to regenerate checks and vectors; run `python make_notebook.py` to regenerate this executed notebook and plots.
 
 **Next, not implemented here:** agree the shaping response; schedule FIR/phase/ROM VHDL; compare HDL samples against these vectors including stalls and latency; integrate with the proven Pluto TX adapter; then use Vivado timing/resource reports and a new attenuated cable test. The previous BPSK image is untouched.''')
-namespace={}
-for count,cell in enumerate([c for c in cells if c['cell_type']=='code'],1):
-    stream=io.StringIO()
-    def show():
+
+# Split the existing narrative into independently executable notebooks.
+all_cells = cells[:]
+low_cells = [dict(cell_type='markdown', metadata={}, source=[
+    '# Notebook 2: PCM-FM fixed-point model and RTL/HDL mapping\n\n'
+    'Companion to [Notebook 1](pcm_fm_explainer.ipynb). This notebook starts from '
+    'the verified waveform and follows the integer datapath toward hardware. '
+    'It runs independently. The RTL below is an architectural sketch, not a synthesized core.\n'
+]), all_cells[1]] + all_cells[6:]
+cells = low_cells
+md("""## 5. Work through one sample with exact integers
+
+The FIR consumes the newest sample at coefficient zero. Because the input is
+only −1, 0 or +1, its tap products can be coefficient negation, zero or addition;
+a general multiplier per tap is unnecessary. The frequency scaling multiply is
+separate. The FIR signed bound is the sum of the absolute quantized coefficients,
+not merely their DC sum. Preserve headroom for transition overshoot.
+""")
+code("""c = quantized_coefficients()
+bound = int(np.abs(c).sum())
+required_bits = bound.bit_length() + 1
+print('FIR worst-case magnitude:', bound, '; signed bits required:', required_bits)
+assert bound < (1 << 20)
+m = IntegerModulator()
+print('sample   NRZ   FIR-Q17    increment    phase-U32      I      Q')
+for n, x in enumerate(nrz[:12]):
+    a, d, p, i, q = m.tick(int(x))
+    print(f'{n:6d} {x:5d} {a:9d} {d:12d} {p:12d} {i:6d} {q:6d}')
+assert round_shift(1,1) == 1 and round_shift(-1,1) == -1
+assert round_shift(3,1) == 2 and round_shift(-3,1) == -2
+""")
+md("""## 6. Proposed HDL blocks and interfaces
+
+```text
+PN15 + samples-per-bit counter
+        | signed NRZ, sample enable
+        v
+65-sample history -> signed coefficient add/subtract -> FIR sum
+        -> deviation scaling + signed rounding
+        -> modulo-2^32 phase register
+        -> upper 12 bits -> sine ROM / quarter-cycle cosine
+        -> signed 16-bit I/Q + output valid
+        -> Pluto TX adapter (integration still pending)
+```
+
+| Proposed block | Inputs | Outputs / retained state |
+|---|---|---|
+| PN15 / bit hold | reset, accepted sample | NRZ; LFSR advances after 8 samples |
+| shaping FIR | NRZ, sample enable | signed 21-bit sum; 65 history values |
+| deviation scale | sum, valid | signed phase increment; explicit rounding |
+| phase accumulator | increment, valid | unsigned wrapped phase |
+| phase-to-I/Q | phase, valid | ROM-based signed 16-bit I and Q |
+
+Proposed core ports are `clk`, `reset`, `sample_ce`, `nrz_in`,
+`i_out`, `q_out`, and `out_valid`. The source counter advances only when an
+input is accepted. A pipelined implementation must propagate each accepted
+sample's validity; it must still drain pending outputs when no new input arrives.
+The Python freeze rule describes an atomic accepted-sample model, not a rule to
+freeze every stage of a future pipeline.
+
+The exact FIR scheduling and pipeline latency remain to be chosen. A serial
+adder can save logic if there are enough clocks between samples. A pipelined
+adder tree can support greater throughput. Neither resource use nor timing is
+established by this notebook.
+
+### VHDL-style phase update sketch
+
+```vhdl
+-- Schematic only: inc_valid corresponds to a completed scaling operation.
+if rising_edge(clk) then
+  if reset = '1' then
+    phase <= (others => '0');
+    phase_valid <= '0';
+  else
+    phase_valid <= inc_valid;
+    if inc_valid = '1' then
+      next_phase := phase + unsigned(increment);
+      phase <= next_phase;
+      -- ROM address must use next_phase to match the Python convention.
+      rom_addr <= next_phase(31 downto 20);
+    end if;
+  end if;
+end if;
+```
+
+A synchronous ROM adds a cycle: delay valid to match. Converting the signed
+32-bit increment to unsigned preserves its two's-complement bit pattern;
+32-bit addition discards carry, giving the intended modulo wrap. Rounding of
+negative scaling products must match `round_shift`, not a bare arithmetic shift.
+""")
+code("""# Observe accepted samples and idle clocks without changing sample order.
+m = IntegerModulator()
+expected = integer_model(pn15(16))
+accepted = 0
+print('clock  accept  sample-index  phase-state')
+for clock in range(24):
+    enable = clock % 3 != 1
+    x = int(nrz[accepted])
+    row = m.tick(x, enable)
+    if enable:
+        assert np.array_equal(row, expected[accepted])
+    print(f'{clock:5d} {int(enable):7d} {accepted:13d} {m.phase:12d}')
+    accepted += int(enable)
+print('Accepted-sample ordering verified. HDL output latency remains unspecified.')
+""")
+md("""## 7. Testbench handoff
+
+1. Load `results/hdl_vectors.csv`; present each NRZ value on an accepted input.
+2. Queue its expected I/Q. Compare exactly when the matching `out_valid` arrives,
+   rather than assuming that input and output occur on the same clock.
+3. Check internal FIR, increment and phase against the corresponding columns.
+4. Insert idle input cycles, reset between runs, and explicitly flush the pipeline.
+5. Repeat with constant and alternating inputs and a full PN15 period.
+
+The supplied CSV contains 4096 samples (512 bits), not the full-period test.
+The Python validation executes the full period. Quantized tables are exact
+inputs to the future HDL; HDL equivalence, XSIM and Vivado work are not yet done.
+""")
+low_cells = cells
+high_cells = all_cells[:6]
+high_cells[0]['source'][0] = '# Notebook 1: PCM-FM waveform explanation\n'
+high_cells.append(dict(cell_type='markdown', metadata={}, source=[
+    '## Continue with Notebook 2\n\n'
+    '[Fixed-point model and RTL/HDL mapping](pcm_fm_low_level.ipynb) contains '
+    'integer widths, rounding, error plots, sample traces, enable behavior and '
+    'the proposed hardware block interfaces.\n'
+]))
+# Notebook 1 calculates only the floating-point waveform.
+high_cells[1] = dict(cell_type='code',metadata={},execution_count=None,outputs=[],source=[
+    "import numpy as np\nimport matplotlib.pyplot as plt\nfrom pcm_fm import *\n"
+    "nrz, shaped, phase, ideal = reference(pn15(32767))\n"
+    "print(f'Fs={FS} Hz; Rb={RB} bit/s; deviation={DEVIATION} Hz')\n"
+])
+def execute_notebook(cells, filename):
+    namespace={}
+    for cell in cells:
+        if cell["cell_type"] == "code": cell["outputs"] = []
+    for count,cell in enumerate([c for c in cells if c['cell_type']=='code'],1):
+        stream=io.StringIO()
+        def show():
+            import matplotlib.pyplot as plt
+            for number in plt.get_fignums():
+                b=io.BytesIO(); plt.figure(number).savefig(b,format='png',dpi=110)
+                cell['outputs'].append(dict(output_type='display_data',metadata={},data={'image/png':base64.b64encode(b.getvalue()).decode(),'text/plain':['PCM-FM model figure']}))
+            plt.close('all')
         import matplotlib.pyplot as plt
-        for number in plt.get_fignums():
-            b=io.BytesIO(); plt.figure(number).savefig(b,format='png',dpi=110)
-            cell['outputs'].append(dict(output_type='display_data',metadata={},data={'image/png':base64.b64encode(b.getvalue()).decode(),'text/plain':['PCM-FM model figure']}))
-        plt.close('all')
-    import matplotlib.pyplot as plt
-    plt.show=show
-    with contextlib.redirect_stdout(stream): exec(''.join(cell['source']),namespace)
-    if stream.getvalue(): cell['outputs'].append(dict(output_type='stream',name='stdout',text=stream.getvalue().splitlines(True)))
-    cell['execution_count']=count
-notebook=dict(cells=cells,metadata=dict(kernelspec=dict(display_name='Python 3',language='python',name='python3'),language_info=dict(name='python',version='3')),nbformat=4,nbformat_minor=4)
-(ROOT/'pcm_fm_explainer.ipynb').write_text(json.dumps(notebook,indent=1)+'\n',encoding='utf8')
-print('Executed notebook and three figures generated.')
+        plt.show=show
+        with contextlib.redirect_stdout(stream): exec(''.join(cell['source']),namespace)
+        if stream.getvalue(): cell['outputs'].append(dict(output_type='stream',name='stdout',text=stream.getvalue().splitlines(True)))
+        cell['execution_count']=count
+    notebook=dict(cells=cells,metadata=dict(kernelspec=dict(display_name='Python 3',language='python',name='python3'),language_info=dict(name='python',version='3')),nbformat=4,nbformat_minor=4)
+    (ROOT/filename).write_text(json.dumps(notebook,indent=1)+"\n",encoding="utf8")
+
+execute_notebook(high_cells, "pcm_fm_explainer.ipynb")
+execute_notebook(low_cells, "pcm_fm_low_level.ipynb")
+print("Both notebooks executed successfully.")

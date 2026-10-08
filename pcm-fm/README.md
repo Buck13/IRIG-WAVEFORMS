@@ -31,3 +31,12 @@ streaming FIR versus convolution, phase wrap, reset and sample-enable stalls.
 These results verify the software arithmetic model only. HDL, pipeline scheduling,
 Pluto integration, resource usage and physical PCM-FM transmission remain pending.
 The existing BPSK design has not been modified.
+
+## Two-notebook reading order
+
+1. [Notebook 1: waveform explanation](pcm_fm_explainer.ipynb).
+2. [Notebook 2: fixed-point model and RTL/HDL mapping](pcm_fm_low_level.ipynb).
+
+Both execute independently. Notebook 2 adds integer sample traces, width bounds,
+accepted-sample behavior, proposed HDL interfaces and a VHDL phase-update sketch.
+The sketch is explanatory; no synthesizable PCM-FM core has been built yet.
