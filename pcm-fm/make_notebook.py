@@ -70,7 +70,7 @@ md('''## 3. Replace real numbers with an explicit integer contract
 | Stage | Representation / rule |
 |---|---|
 | NRZ history | signed 2-bit −1/+1; zero only in reset history |
-| FIR coefficients | signed 18-bit integers, 17 fractional bits; symmetric; sum exactly 131072 |
+| FIR coefficients | signed 18-bit integers, 17 fractional bits; asymmetric; sum exactly 131072 |
 | FIR accumulator | signed 21-bit; no intermediate rounding |
 | Deviation gain | 187904819, unsigned 28-bit phase units per sample at unit command |
 | Multiply | signed 50-bit, then shift right 17 with nearest rounding, ties away from zero |
