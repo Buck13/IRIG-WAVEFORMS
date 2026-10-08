@@ -127,3 +127,9 @@ synchronized receiver. No calibrated RF output power was measured.
 Next: PCM-FM stimulus shaping plus phase accumulation/IQ generation, simulated
 against a reference before integration. SOQPSK and CPM-H remain future work;
 no CPM modulator or Viterbi detector has been implemented here.
+
+## PCM-FM reference models
+
+Steps 1 and 2 are now available in [pcm-fm/README.md](pcm-fm/README.md): an executed
+explanation notebook, floating-point model, fixed-point model and HDL test vectors.
+These are offline models; PCM-FM HDL and Vivado integration are still pending.
