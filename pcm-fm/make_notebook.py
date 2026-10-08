@@ -249,6 +249,16 @@ def execute_notebook(cells, filename):
     notebook=dict(cells=cells,metadata=dict(kernelspec=dict(display_name='Python 3',language='python',name='python3'),language_info=dict(name='python',version='3')),nbformat=4,nbformat_minor=4)
     (ROOT/filename).write_text(json.dumps(notebook,indent=1)+"\n",encoding="utf8")
 
+status_note = dict(cell_type='markdown',metadata={},source=[
+    '## HDL implementation update\n\n'
+    'The following model discussion is followed by an implemented VHDL core: '
+    '[architecture and timing](HDL.md). XSIM now passes 268280 exact I/Q/phase '
+    'comparisons including stalls and reset. Its measured simulation latency is '
+    '11 clocks. Statements below about future HDL refer to the original model stage. '
+    'Synthesis, physical timing and Pluto integration remain pending.\n'
+])
+high_cells.insert(1,status_note)
+low_cells.insert(1,dict(status_note))
 execute_notebook(high_cells, "pcm_fm_explainer.ipynb")
 execute_notebook(low_cells, "pcm_fm_low_level.ipynb")
 print("Both notebooks executed successfully.")

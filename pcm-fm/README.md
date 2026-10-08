@@ -28,8 +28,9 @@ results are in `results/metrics.json`; filter comparisons are in
 `results/filter-validation.json`. SHA-256 hashes freeze the coefficient/ROM/vector
 files in `results/reference-sha256.json`.
 
-These results verify the software arithmetic model only. HDL, pipeline scheduling,
-Pluto integration, resource usage and physical PCM-FM transmission remain pending.
+The VHDL core now passes exact XSIM comparison over 268280 samples. See
+[HDL architecture](HDL.md) and [simulation result](results/XSIM-RESULT.md).
+Pluto integration, resource usage, timing closure and physical PCM-FM transmission remain pending.
 The existing BPSK design has not been modified.
 
 ## Two-notebook reading order
@@ -39,4 +40,4 @@ The existing BPSK design has not been modified.
 
 Both execute independently. Notebook 2 adds integer sample traces, width bounds,
 accepted-sample behavior, proposed HDL interfaces and a VHDL phase-update sketch.
-The sketch is explanatory; no synthesizable PCM-FM core has been built yet.
+The notebook sketch is explanatory; the implemented VHDL core is in `hdl/pcm_fm_core.vhd`.

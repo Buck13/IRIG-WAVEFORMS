@@ -132,4 +132,6 @@ no CPM modulator or Viterbi detector has been implemented here.
 
 Steps 1 and 2 are now available in [pcm-fm/README.md](pcm-fm/README.md): an executed
 explanation notebook, floating-point model, fixed-point model and HDL test vectors.
-These are offline models; PCM-FM HDL and Vivado integration are still pending.
+The PCM-FM VHDL core now passes XSIM over 268280 exact I/Q/phase samples.
+See [HDL verification](pcm-fm/HDL.md). Pluto integration and implementation timing remain pending.
+

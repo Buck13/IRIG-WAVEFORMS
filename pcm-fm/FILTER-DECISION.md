@@ -47,3 +47,6 @@ The spectral figure is a relative windowed periodogram, not the standard's
 measurement procedure or an RF mask pass/fail result. Analog reconstruction,
 Pluto interpolation, RF impairments and receiver performance remain untested.
 The next stage is VHDL scheduling and exact sample-by-sample XSIM equivalence.
+
+Update: the selected reference now has a matching VHDL core with passing XSIM
+verification; see [HDL.md](HDL.md). Synthesis and RF verification remain pending.
