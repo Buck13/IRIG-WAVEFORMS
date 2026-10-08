@@ -30,7 +30,8 @@ files in `results/reference-sha256.json`.
 
 The VHDL core now passes exact XSIM comparison over 268280 samples. See
 [HDL architecture](HDL.md) and [simulation result](results/XSIM-RESULT.md).
-Pluto integration, resource usage, timing closure and physical PCM-FM transmission remain pending.
+Full Pluto integration now passes its timing and DRC gates. See
+[the integrated result](INTEGRATION-RESULT.md). Physical PCM-FM transmission remains pending.
 The existing BPSK design has not been modified.
 
 ## Two-notebook reading order
@@ -47,3 +48,10 @@ The notebook sketch is explanatory; the implemented VHDL core is in `hdl/pcm_fm_
 The routed XC7Z010 core uses 692 LUTs, 737 registers, 4 BRAM tiles and 2 DSPs.
 Internal timing passes at the 100 MHz target; boundary hold violations remain
 in the isolated build. See [the complete report](results/standalone/RESULT.md).
+
+## Full Pluto integration
+
+The isolated PCM-FM image is built and verified: 11965 LUTs, 19561 registers,
+6.5 BRAM tiles and 74 DSPs. Setup +0.910 ns; hold +0.014 ns. See
+[INTEGRATION-RESULT.md](INTEGRATION-RESULT.md) for remaining constraints/warnings,
+artifact locations and the pending hardware test.

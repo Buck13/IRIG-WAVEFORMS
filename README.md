@@ -135,3 +135,11 @@ explanation notebook, floating-point model, fixed-point model and HDL test vecto
 The PCM-FM VHDL core now passes XSIM over 268280 exact I/Q/phase samples.
 See [HDL verification](pcm-fm/HDL.md). Pluto integration and implementation timing remain pending.
 
+
+## PCM-FM integrated image ready for hardware testing
+
+The [full PCM-FM build](pcm-fm/INTEGRATION-RESULT.md) now passes the inherited
+timing/DRC gates. Adapter XSIM matched 268280 samples. The image uses 74/80 DSPs,
+11965/17600 LUTs, 19561/35200 registers and 6.5/60 BRAM tiles.
+BIT/BIN/XSA and FPGA-manager conversion are verified. No PCM-FM hardware load or
+RF test has been performed; the BPSK physical-test milestone remains separate.

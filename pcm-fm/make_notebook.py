@@ -255,7 +255,7 @@ status_note = dict(cell_type='markdown',metadata={},source=[
     '[architecture and timing](HDL.md). XSIM now passes 268280 exact I/Q/phase '
     'comparisons including stalls and reset. Its measured simulation latency is '
     '11 clocks. Statements below about future HDL refer to the original model stage. '
-    'Synthesis, physical timing and Pluto integration remain pending.\n'
+    'Full Pluto integration now passes timing/DRC gates; see INTEGRATION-RESULT.md. Physical PCM-FM transmission remains pending.\n'
 ])
 high_cells.insert(1,status_note)
 low_cells.insert(1,dict(status_note))
