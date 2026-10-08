@@ -1,0 +1,39 @@
+{
+  "captures": {
+    "dma_zero": {
+      "RX1": {
+        "rms_counts": 2.05262170199467,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 2.556099787195683,
+        "clipped": 0
+      }
+    },
+    "pn15_on": {
+      "RX1": {
+        "rms_counts": 2.0631409187156438,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 20.250420411431406,
+        "clipped": 0
+      }
+    },
+    "pn15_off": {
+      "RX1": {
+        "rms_counts": 2.0611098630355733,
+        "clipped": 0
+      },
+      "RX2": {
+        "rms_counts": 2.589891358944246,
+        "clipped": 0
+      }
+    }
+  },
+  "cleanup_errors": [],
+  "fs": 2500000,
+  "lo": 915000000,
+  "tx_gain": -40,
+  "rx_gain": 30
+}

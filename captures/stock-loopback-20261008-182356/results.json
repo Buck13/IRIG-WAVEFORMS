@@ -1,0 +1,84 @@
+{
+  "settings": {
+    "fs": 2500000,
+    "lo": 915000000,
+    "tx_gain_db": -40,
+    "rx_gain_db": 30,
+    "external_atten_db": 30
+  },
+  "captures": {
+    "off_before": {
+      "RX1": {
+        "peak_hz": -1175689.697265625,
+        "rms_counts": 2.0426041105154367,
+        "peak_over_median_db": 17.782438421280286,
+        "clipped_components": 0
+      },
+      "RX2": {
+        "peak_hz": -1199544.2708333335,
+        "rms_counts": 2.3534835441050808,
+        "peak_over_median_db": 20.315910593850187,
+        "clipped_components": 0
+      }
+    },
+    "tone_200k": {
+      "RX1": {
+        "peak_hz": 1180318.1966145835,
+        "rms_counts": 2.0260227985165433,
+        "peak_over_median_db": 18.24391889108391,
+        "clipped_components": 0
+      },
+      "RX2": {
+        "peak_hz": 199991.8619791667,
+        "rms_counts": 5.231102876323309,
+        "peak_over_median_db": 57.450438330219555,
+        "clipped_components": 0
+      }
+    },
+    "tone_350k": {
+      "RX1": {
+        "peak_hz": 1223653.1575520835,
+        "rms_counts": 2.035864722540054,
+        "peak_over_median_db": 18.70057069807045,
+        "clipped_components": 0
+      },
+      "RX2": {
+        "peak_hz": 349985.7584635417,
+        "rms_counts": 5.0604720208686995,
+        "peak_over_median_db": 57.096631583230604,
+        "clipped_components": 0
+      }
+    },
+    "off_after": {
+      "RX1": {
+        "peak_hz": -1141052.24609375,
+        "rms_counts": 2.0158227667234927,
+        "peak_over_median_db": 18.368003025269708,
+        "clipped_components": 0
+      },
+      "RX2": {
+        "peak_hz": -1242675.78125,
+        "rms_counts": 2.383993093883823,
+        "peak_over_median_db": 20.987452181361768,
+        "clipped_components": 0
+      }
+    }
+  },
+  "cleanup": [
+    {
+      "channel": "altvoltage0",
+      "attribute": "raw",
+      "readback": ""
+    },
+    {
+      "channel": "voltage0",
+      "attribute": "hardwaregain",
+      "readback": ""
+    },
+    {
+      "channel": "voltage1",
+      "attribute": "hardwaregain",
+      "readback": ""
+    }
+  ]
+}

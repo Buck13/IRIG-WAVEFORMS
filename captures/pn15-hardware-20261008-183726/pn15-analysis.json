@@ -1,0 +1,13 @@
+{
+  "sps": 8,
+  "sample_offset": 3,
+  "lag": 12016,
+  "normalized_correlation": 0.9977979755095672,
+  "symbols": 8192,
+  "symbol_errors": 0,
+  "held_out_symbols": 118783,
+  "held_out_errors": 0,
+  "total_symbols": 126975,
+  "total_errors": 0,
+  "symbol_rate": 312500.0
+}
