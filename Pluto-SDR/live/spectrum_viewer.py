@@ -15,7 +15,7 @@ class Reader(QtCore.QThread):
             receiver=Receiver(self.uri,self.rx);fs,_=receiver.settings();last=0;avg=None
             wide=self.span>fs*.9
             usable=fs*.8
-            count=max(1,int(np.ceil(self.span/usable)))
+            count=1 if not wide else 2*int(np.ceil(max(0,self.span-usable)/(2*usable*.75)))+1
             centers=np.linspace(self.center-self.span/2+usable/2,self.center+self.span/2-usable/2,count) if wide else np.array([self.center])
             while not self.stop_event.is_set():
                 xs=[];ys=[];rms=[];clipped=0
@@ -35,7 +35,10 @@ class Reader(QtCore.QThread):
                 last=now
         except Exception as e:self.error.emit(str(e))
         finally:
-            if receiver:receiver.close()
+            if receiver:
+                try:receiver.set_rx_lo(self.center)
+                except Exception:pass
+                receiver.close()
 
 class Window(QtWidgets.QMainWindow):
     def __init__(self,uri):
