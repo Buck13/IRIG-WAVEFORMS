@@ -150,3 +150,9 @@ The [PCM-FM attenuated loopback](captures/pcm-fm-hardware-20261009-072118/RESULT
 126975 recovered bits with zero mismatches, including 118783 held-out bits.
 Measured steady-run deviation was +/-109.350 kHz versus +/-109.375 kHz nominal.
 TX is muted and the source deselected; the custom image remains volatile.
+
+## Live spectrum and manual TX controls
+
+[Operator guide](live/README.md): receive-only Qt spectrum viewer, separate SSH
+continuous PN15 PCM-FM start/stop controller, and muted reload/prepare helper.
+The viewer does not enable or disable TX. Continuous TX requires an explicit stop.
