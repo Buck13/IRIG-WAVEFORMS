@@ -1,0 +1,50 @@
+{
+  "cdc.rpt": {
+    "bytes": 474134,
+    "sha256": "79072a19eb7c09088d2bbb54eeaead32f687effb654ec242cf8b9a64cb87735a"
+  },
+  "drc.rpt": {
+    "bytes": 18203,
+    "sha256": "5db54449cc0d286ec057d611c263f1313257961a05df1268311e8972aff58642"
+  },
+  "exceptions.rpt": {
+    "bytes": 12702,
+    "sha256": "4543dbe244fef3feefad9bfb78a4187502ef9b9f4e90d68526a3290997f8c5f5"
+  },
+  "fpga-manager.bif": {
+    "bytes": 25,
+    "sha256": "ef054a4a8107fa5cf976e2ba0feb97013095ef9a0b355fb144f355fe87461ac3"
+  },
+  "methodology.rpt": {
+    "bytes": 17805,
+    "sha256": "4a1d0ade39ad7612b1816dfb6475a71590c850b735b35abfe3402a0af7446cbd"
+  },
+  "pluto_pn15.bin": {
+    "bytes": 2083740,
+    "sha256": "9e8322941430a4b3111d4c991f1e0169e6656639af4c8fdba1b78b0b75a9572a"
+  },
+  "pluto_pn15.bit": {
+    "bytes": 2083941,
+    "sha256": "dc5f62010aa84c8fd7ad8dca253047f4de34f160a85dd5c51062bd4a0149b2a2"
+  },
+  "pluto_pn15.bit.bin": {
+    "bytes": 2083744,
+    "sha256": "6e90782634a8452d1a019534bd96c1649320b9ae82e5c404ace765d867dbcf40"
+  },
+  "pluto_pn15.dcp": {
+    "bytes": 12637913,
+    "sha256": "84daae8a1935ff4ae7706d2c6f783e9c5a84f2a13dc2e49f59a039c5d545a658"
+  },
+  "pluto_pn15.xsa": {
+    "bytes": 730416,
+    "sha256": "f328228f336f2c2cfa7f49ee2bab9c17da0f369c73ae6dc12e985997eeb7fda3"
+  },
+  "timing.rpt": {
+    "bytes": 156585,
+    "sha256": "cebaaaccec7bd7c092aa64041369ec327176ae1ae64dcd3df8c16aa64c6dcb31"
+  },
+  "utilization.rpt": {
+    "bytes": 12608,
+    "sha256": "179bc35bb8578150321cdabcf947a37a557e0e42016f19ee1d57745773c5d3f0"
+  }
+}

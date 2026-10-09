@@ -1,0 +1,9 @@
+*.sh text eol=lf
+*.py text eol=lf
+*.tcl text eol=lf
+*.vhd text eol=lf
+*.sv text eol=lf
+# Preserve tool evidence and upstream patches byte-for-byte, including spacing.
+*.rpt -text whitespace=-blank-at-eol,-blank-at-eof
+*.patch -text whitespace=-blank-at-eol,-blank-at-eof
+*.md text eol=lf whitespace=-blank-at-eof

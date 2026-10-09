@@ -1,0 +1,794 @@
+[
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "hardwaregain",
+      "-89.75"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage1",
+      "hardwaregain",
+      "-89.75"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage1",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage3",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage4",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage5",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage6",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage7",
+      "scale",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "sampling_frequency",
+      "2500000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "rf_bandwidth",
+      "1000000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "sampling_frequency",
+      "2500000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "rf_bandwidth",
+      "1000000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "altvoltage0",
+      "frequency",
+      "915000000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "altvoltage1",
+      "frequency",
+      "915000000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "gain_control_mode",
+      "manual"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "hardwaregain",
+      "30"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage1",
+      "gain_control_mode",
+      "manual"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-i",
+      "-c",
+      "ad9361-phy",
+      "voltage1",
+      "hardwaregain",
+      "30"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "frequency",
+      "200000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "phase",
+      "90000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "scale",
+      "0.125"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "frequency",
+      "200000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "phase",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "scale",
+      "0.125"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "hardwaregain",
+      "-40"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "1"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "frequency",
+      "350000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "phase",
+      "90000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "scale",
+      "0.125"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "frequency",
+      "350000"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "phase",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage2",
+      "scale",
+      "0.125"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "hardwaregain",
+      "-40"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "1"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "cf-ad9361-dds-core-lpc",
+      "altvoltage0",
+      "raw",
+      "0"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage0",
+      "hardwaregain",
+      "-89.75"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  },
+  {
+    "args": [
+      "-u",
+      "ip:192.168.2.1",
+      "-T",
+      "5000",
+      "-q",
+      "-o",
+      "-c",
+      "ad9361-phy",
+      "voltage1",
+      "hardwaregain",
+      "-89.75"
+    ],
+    "result": "",
+    "error": "",
+    "code": 0
+  }
+]

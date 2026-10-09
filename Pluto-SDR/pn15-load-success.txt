@@ -1,0 +1,14 @@
+PREFLIGHT
+/lib/firmware/pluto_pn15.bit.bin: OK
+USB_STOP
+UNBIND_CONSUMERS
+FPGA_LOAD
+FPGA_OPERATING
+DRIVERS_BOUND
+2220
+operating
+ad9361-phy
+xadc
+cf-ad9361-dds-core-lpc
+cf-ad9361-lpc
+TEMPORARY_LOAD_DONE: PN disabled, radio asleep. RF test is a separate step.

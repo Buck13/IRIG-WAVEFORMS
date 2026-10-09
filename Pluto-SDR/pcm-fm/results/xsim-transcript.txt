@@ -1,0 +1,46 @@
+#-----------------------------------------------------------
+# xsim v2026.1 (64-bit)
+# SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
+# IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+# SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+# Start of session at: Thu Oct  8 20:32:39 2026
+# Process ID         : 23904
+# Current directory  : C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/build/xsim
+# Command line       : xsim.exe -log pcm_fm.log -mode tcl -source {xsim.dir/pcm_fm_sim/xsim_script.tcl}
+# Log file           : C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/build/xsim/pcm_fm.log
+# Journal file       : C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/build/xsim\xsim.jou
+# Running On         : HendrikDesktop
+# Platform           : Windows 11
+# Operating System   : 26200
+# Processor Detail   : AMD Ryzen 7 3700X 8-Core Processor
+# CPU Frequency      : 3600 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 16
+# Host memory        : 17127 MB
+# Swap memory        : 20401 MB
+# Total Virtual      : 37528 MB
+# Available Virtual  : 7766 MB
+#-----------------------------------------------------------
+source xsim.dir/pcm_fm_sim/xsim_script.tcl
+# xsim {pcm_fm_sim} -wdb {pcm_fm.wdb} -autoloadwcfg -tclbatch {C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/run.tcl}
+Time resolution is 1 ps
+source C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/run.tcl
+## log_wave /pcm_fm_tb/clk /pcm_fm_tb/reset /pcm_fm_tb/ce /pcm_fm_tb/nrz /pcm_fm_tb/io /pcm_fm_tb/qo /pcm_fm_tb/valid /pcm_fm_tb/phase
+## run all
+Note: CASE 0 PASS samples=262136
+Time: 2621596 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+Note: CASE 1 PASS samples=1024
+Time: 2635466 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+Note: CASE 2 PASS samples=1024
+Time: 2649066 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+Note: CASE 3 PASS samples=2048
+Time: 2676316 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+Note: CASE 4 PASS samples=2048
+Time: 2703526 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+Note: PASS: PCM FM exact I/Q + phase + latency + stalls + reset; samples=268280
+Time: 2703526 ns  Iteration: 0  Process: /pcm_fm_tb/line__18  File: C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd
+$finish called at time : 2703526 ns : File "C:/Users/hendr/.codex/.chatgpt-projects/g-p-6ab23f1236348191a7d8295902dcddaa/pluto-dev/pcm-fm/sim/pcm_fm_tb.vhd" Line 86
+run: Time (s): cpu = 00:00:00 ; elapsed = 00:00:31 . Memory (MB): peak = 236.160 ; gain = 0.000
+## quit
+INFO: xsimkernel Simulation Memory Usage: 28184 KB (Peak: 28184 KB), Simulation CPU Usage: 30983 ms
+INFO: [Common 17-206] Exiting xsim at Thu Oct  8 20:33:12 2026...

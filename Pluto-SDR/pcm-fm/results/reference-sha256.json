@@ -1,0 +1,5 @@
+{
+  "coefficients_q17.txt": "b9a35a4c4133b7f589cf2aeccfb37ae24d71da1ff1f94197a588945316e7ef72",
+  "sine_lut_s16.txt": "cada890a53bd3adc55eb8b84c396135265df5243d3ced54ff6572bae8e877214",
+  "hdl_vectors.csv": "f2639a27cd25ed7499ebc09efc3ffded22087709860c0e649cab7f4bfc401075"
+}
