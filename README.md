@@ -11,3 +11,14 @@ The [CPM-H project](CPM-H/README.md) contains explanatory notebooks, Python mode
 
 The notebooks include saved outputs. Run from the `CPM-H` directory after installing its `requirements.txt`.
 These are educational models; FPGA timing closure and RF compliance are not established.
+
+## Pluto SDR hardware work
+
+[Pluto-SDR](Pluto-SDR/README.md) contains the verified FPGA PCM-FM transmitter,
+Python control/capture scripts, VHDL, XSIM tests and hardware loopback evidence.
+[Local workspace instructions](WORKSPACE.md) describe the C:\SDR_Work layout.
+
+- [PCM-FM high-level notebook](Pluto-SDR/pcm-fm/pcm_fm_explainer.ipynb)
+- [PCM-FM low-level notebook](Pluto-SDR/pcm-fm/pcm_fm_low_level.ipynb)
+- [Hardware control script](Pluto-SDR/test-pcm-fm-hardware.py)
+- [Measured loopback result](Pluto-SDR/captures/pcm-fm-hardware-20261009-072118/RESULT.md)

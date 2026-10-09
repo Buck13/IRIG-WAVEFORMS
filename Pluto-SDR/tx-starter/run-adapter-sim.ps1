@@ -5,7 +5,7 @@ $outputDir = "$PSScriptRoot/build/adapter-sim"
 New-Item -ItemType Directory -Force $outputDir | Out-Null
 Push-Location $outputDir
 try {
-    & "$workspace/rfnoc-dev/.venv/Scripts/python.exe" "$PSScriptRoot/sim/make_vectors.py"
+    & "$workspace/.venv/Scripts/python.exe" "$PSScriptRoot/sim/make_vectors.py"
     if ($LASTEXITCODE -ne 0) { throw 'Reference checks failed' }
     & "$VivadoBin/xvhdl.bat" --2008 "$PSScriptRoot/vhdl/bpsk_mapper.vhd" "$PSScriptRoot/vhdl/pn15_generator.vhd" "$PSScriptRoot/vhdl/pn15_bpsk_tx.vhd" "$PSScriptRoot/vhdl/pluto_pn15_tx_adapter.vhd" "$PSScriptRoot/sim/pluto_adapter_tb.vhd"
     if ($LASTEXITCODE -ne 0) { throw 'Adapter compilation failed' }

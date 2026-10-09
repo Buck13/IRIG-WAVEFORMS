@@ -17,5 +17,5 @@ try {
  if ($LASTEXITCODE -ne 0) { throw 'Bootgen failed' }
 } finally { Pop-Location }
 $workspace=(Resolve-Path "$PSScriptRoot/../..").Path
-& "$workspace/rfnoc-dev/.venv/Scripts/python.exe" "$PSScriptRoot/verify-pcm-fm-artifacts.py"
+& "$workspace/.venv/Scripts/python.exe" "$PSScriptRoot/verify-pcm-fm-artifacts.py"
 if ($LASTEXITCODE -ne 0) { throw 'Artifact verification failed' }

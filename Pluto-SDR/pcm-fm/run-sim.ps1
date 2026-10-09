@@ -1,7 +1,7 @@
 param([string]$VivadoBin='C:\AMDDesignTools\2026.1\Vivado\bin')
 $ErrorActionPreference='Stop'
 $workspace=(Resolve-Path "$PSScriptRoot/../..").Path
-& "$workspace/rfnoc-dev/.venv/Scripts/python.exe" "$PSScriptRoot/sim/generate.py"
+& "$workspace/.venv/Scripts/python.exe" "$PSScriptRoot/sim/generate.py"
 if ($LASTEXITCODE -ne 0) { throw 'Vector generation failed' }
 Push-Location "$PSScriptRoot/build/xsim"
 try {

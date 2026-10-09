@@ -27,3 +27,19 @@ and passed all 6000 clock vectors, including stalls and resets. FPGA synthesis a
 Architecture status: the current code uses a shared pulse ROM and signed multipliers. The agreed next revision is
 two even/odd banks containing four fully mapped signed pulses each, selected by the three overlapping-symbol paths.
 That banked architecture has been discussed but is not implemented in this snapshot.
+
+## Notebook 3: high-level demodulation
+
+`ARTM_CPM_demodulation.ipynb` explains coherent sequence detection in Python: received I/Q, an illustrative
+frequency discriminator, even/odd candidate waveform banks, Viterbi survivor selection, and recovered dibits.
+It assumes ideal timing/carrier/index synchronization and a known initial state. Three known trailing data
+symbols provide observations of the final payload pulses; this is an educational packet boundary condition.
+
+`cpm_demod.py` contains the reusable model; `build_demod_notebook.py` regenerates the notebook.
+Validation includes noiseless recovery, analytic transmitter/trellis waveform agreement, and Viterbi agreement
+with an independent exhaustive search. The saved noisy example recovers 256 bits without errors; this short
+run is not a calibrated BER benchmark. No receiver VHDL is included.
+
+Relocated workspace: use the repository root's .venv/Scripts/python.exe interpreter.
+See [workspace instructions](../WORKSPACE.md); the root environment supersedes
+the original per-folder environment instructions above.
