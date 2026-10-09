@@ -18,7 +18,10 @@ find_tx() {
  done
  test -n "$tx"
 }
-mute() { for f in "$phy"/out_voltage*_hardwaregain; do echo -89.75 > "$f"; done; }
+mute() {
+ printf '%s' -89.750000 > "$phy/out_voltage0_hardwaregain" 2>/dev/null || :
+ case "$(cat "$phy/out_voltage0_hardwaregain")" in -89.750000*) ;; *) echo 'Could not verify TX1 mute.' >&2; return 1;; esac
+}
 stop_tx() {
  mute
  if [ -f /tmp/pcm-fm-load.log ] && grep -q TEMPORARY_LOAD_DONE /tmp/pcm-fm-load.log; then devmem 0x41210000 32 0; fi

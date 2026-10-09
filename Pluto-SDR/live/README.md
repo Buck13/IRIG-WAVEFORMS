@@ -29,8 +29,8 @@ waits for USB recovery and prepares 915 MHz, 2.5 MS/s, 1 MHz RF bandwidth,
 manual RX gain 30 dB. Both TX channels remain at maximum attenuation.
 Do not use the BPSK capture script during this process.
 
-The saved SSH fingerprint was verified through COM3 USB serial on 2026-10-09:
-`SHA256:l4u2JjiFnD8v5kQAu/mgotcspemMDj5P/qE2HIlZMNY`.
+The saved SSH fingerprint was verified through COM3 USB serial on 2026-10-10:
+`SHA256:SUIhmvLRVOGksl/o0cIimV6rsIwj9yl1V1zb4mrZpcc`.
 A host-key mismatch stops setup. Reverify through USB serial, then pass
 `--host-key SHA256:...`; do not blindly accept another key.
 The firmware's FPGA-manager filename attribute is write-only, so the controller

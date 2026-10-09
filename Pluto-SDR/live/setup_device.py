@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,subprocess,time
 ROOT=Path(__file__).resolve().parents[1]
 PUTTY=Path('C:/Program Files (x86)/PuTTY')
-DEFAULT_KEY='SHA256:l4u2JjiFnD8v5kQAu/mgotcspemMDj5P/qE2HIlZMNY'
+DEFAULT_KEY='SHA256:SUIhmvLRVOGksl/o0cIimV6rsIwj9yl1V1zb4mrZpcc'
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument('--host',default='192.168.2.1');p.add_argument('--host-key',default=DEFAULT_KEY)
