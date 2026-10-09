@@ -1,7 +1,7 @@
 """Continuous receive-only spectrum GUI; start/stop RX never enables TX."""
 import sys,time,threading,argparse
 import numpy as np
-from PySide6 import QtCore,QtWidgets
+from PySide6 import QtCore,QtWidgets,QtGui
 import pyqtgraph as pg
 from rx_backend import Receiver,spectrum
 
@@ -30,6 +30,8 @@ class Reader(QtCore.QThread):
 class Window(QtWidgets.QMainWindow):
     def __init__(self,uri):
         super().__init__();self.worker=None;self.hold=None;self.tuning=None
+        QtGui.QFontDatabase.addApplicationFont('C:/Windows/Fonts/segoeui.ttf')
+        QtWidgets.QApplication.instance().setFont(QtGui.QFont('Segoe UI',10))
         self.setWindowTitle('Pluto live spectrum — RECEIVE ONLY');self.resize(1050,650)
         box=QtWidgets.QWidget();self.setCentralWidget(box);layout=QtWidgets.QVBoxLayout(box)
         bar=QtWidgets.QHBoxLayout();layout.addLayout(bar)
