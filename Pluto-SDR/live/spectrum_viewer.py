@@ -41,7 +41,7 @@ class Window(QtWidgets.QMainWindow):
         self.stop=QtWidgets.QPushButton('Stop RX');self.stop.clicked.connect(self.disconnect_rx);bar.addWidget(self.stop)
         self.maxhold=QtWidgets.QCheckBox('Max hold');bar.addWidget(self.maxhold)
         reset=QtWidgets.QPushButton('Clear hold');reset.clicked.connect(lambda:setattr(self,'hold',None));bar.addWidget(reset)
-        self.plot=pg.PlotWidget();layout.addWidget(self.plot);self.plot.setLabel('bottom','RF frequency',units='MHz');self.plot.setLabel('left','dBFS / FFT bin');self.plot.setYRange(-120,0);self.plot.showGrid(x=True,y=True,alpha=.2)
+        self.plot=pg.PlotWidget();layout.addWidget(self.plot);self.plot.setLabel('bottom','RF frequency',units='MHz');self.plot.getAxis('bottom').enableAutoSIPrefix(False);self.plot.setLabel('left','dBFS / FFT bin');self.plot.setYRange(-120,0);self.plot.showGrid(x=True,y=True,alpha=.2)
         self.trace=self.plot.plot(pen=pg.mkPen('#36c5f0',width=1.5));self.held=self.plot.plot(pen=pg.mkPen('#ffc857',width=1))
         self.status=QtWidgets.QLabel('Disconnected. RX controls never start or stop TX.');layout.addWidget(self.status)
         layout.addWidget(QtWidgets.QLabel('8192-point Hann FFT • power averaging • relative ADC level, not calibrated dBm • TX is controlled separately through SSH'))
