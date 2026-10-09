@@ -1,4 +1,4 @@
-"""Receive-only libiio access. Never writes radio attributes or touches TX."""
+"""Receive-only libiio access. May retune RX LO; never touches TX."""
 import ctypes as C
 import os
 from pathlib import Path
@@ -19,6 +19,7 @@ class Receiver:
         self.channel=api('iio_device_find_channel',p,[p,C.c_char_p,C.c_bool])
         enable=api('iio_channel_enable',None,[p])
         self.attr=api('iio_channel_attr_read_longlong',C.c_int,[p,C.c_char_p,C.POINTER(C.c_longlong)])
+        self.attr_write=api('iio_channel_attr_write_longlong',C.c_int,[p,C.c_char_p,C.c_longlong])
         make=api('iio_device_create_buffer',p,[p,C.c_size_t,C.c_bool])
         self.destroy_buffer=api('iio_buffer_destroy',None,[p])
         self.refill=api('iio_buffer_refill',C.c_ssize_t,[p])
@@ -44,6 +45,10 @@ class Receiver:
         return v.value
     def settings(self):
         return self.setting('voltage0','sampling_frequency',False), self.setting('altvoltage0','frequency',True)
+    def set_rx_lo(self,frequency):
+        c=self.channel(self.phy,b'altvoltage0',True)
+        if not c or self.attr_write(c,b'frequency',int(frequency))<0:
+            raise RuntimeError('Cannot tune RX LO')
     def capture(self):
         if self.refill(self.buf)<0:raise RuntimeError('RX timeout/disconnection; reconnect when device is ready')
         for ch,a in zip(self.channels,self.arrays):

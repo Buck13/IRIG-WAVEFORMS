@@ -45,10 +45,11 @@ Double-click `Open-Spectrum.cmd` in this folder, or run:
 & .\.venv\Scripts\python.exe .\Pluto-SDR\live\spectrum_viewer.py
 ```
 
-Leave URI `ip:192.168.2.1`, select RX2, and click **Start RX**.
-The plot follows live RX buffers with an 8192-point Hann FFT, averaged power,
-optional max hold, RF frequency labels, RMS counts and clipping count.
-It reads the radio's current LO/sample rate; it does not retune or enable TX.
+Leave URI `ip:192.168.2.1`, select RX2, choose a center and span, and click
+**Start RX**. A span within the instantaneous sample bandwidth gives a fast
+continuous FFT. A wider span sweeps the RX LO across the requested range and
+stitches the FFT sections; it updates more slowly. The default is 915 MHz with
+a 20 MHz span. The viewer may retune RX only; it never retunes or enables TX.
 Levels are relative dBFS per FFT bin, not calibrated RF dBm. Only one program
 can own the RX buffer; stop the viewer before running the older capture script.
 **Stop RX** releases the receiver only. It does not turn transmission off.
