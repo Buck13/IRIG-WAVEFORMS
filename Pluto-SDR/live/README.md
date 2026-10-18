@@ -29,8 +29,9 @@ waits for USB recovery and prepares 915 MHz, 2.5 MS/s, 1 MHz RF bandwidth,
 manual RX gain 30 dB. Both TX channels remain at maximum attenuation.
 Do not use the BPSK capture script during this process.
 
-The saved SSH fingerprint was verified through COM3 USB serial on 2026-10-10:
-`SHA256:SUIhmvLRVOGksl/o0cIimV6rsIwj9yl1V1zb4mrZpcc`.
+The saved SSH fingerprint for the current boot was verified over the direct USB
+connection on 2026-10-18:
+`SHA256:XE9VZSZUPrwq6aTkbb8pEP2lUThVIj8LuEbtBOhChUA`.
 A host-key mismatch stops setup. Reverify through USB serial, then pass
 `--host-key SHA256:...`; do not blindly accept another key.
 The firmware's FPGA-manager filename attribute is write-only, so the controller
@@ -93,7 +94,7 @@ sh /tmp/pcm-fm-control.sh stop
 
 This maximizes TX attenuation, deselects FPGA PCM-FM and terminates the specific
 stream process started by this controller. Verify with `status`: source 0,
-TX buffer 0, both TX gains -89.75 dB. The viewer may keep receiving noise.
+TX buffer 0 and TX1 gain -89.75 dB. The viewer may keep receiving noise.
 If another application owns the TX buffer, close that application too.
 
 To change the fixed test configuration, stop TX and RX first. `prepare` restores
@@ -107,8 +108,7 @@ Power cycling removes the temporary bitstream/scripts and requires setup again.
 
 ## Validation status
 
-Qt window smoke test, FFT frequency/normalization checks and five live RX2 buffers
-passed. Device-side shell syntax and status were checked. This task did not enable
-TX. The new persistent start/stop controller and reload helper still require their
-first end-to-end operational run; they reuse the previous successful loader and
-libiio cyclic-stream method. The existing bounded hardware test remains separate.
+The post-interpolator image passed timing and DRC, preserved selector-0 DMA on
+hardware, and transmitted selector-1 PN15 PCM-FM through TX1 -> 30 dB -> RX2.
+The persistent controller and full reload helper have both completed end to end.
+The current FPGA load is volatile and must be repeated after a power cycle.

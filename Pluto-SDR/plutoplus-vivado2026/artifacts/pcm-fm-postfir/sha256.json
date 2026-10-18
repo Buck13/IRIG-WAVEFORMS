@@ -1,0 +1,50 @@
+{
+  "cdc.rpt": {
+    "bytes": 474028,
+    "sha256": "2f92296fc8ba440b1157a38c3024d775bcc90b5c12c743d61d05edfc60435dfe"
+  },
+  "drc.rpt": {
+    "bytes": 43133,
+    "sha256": "4563f17092555b41e30bb64a005c2819c3e758bdfc101706883c7fe3bfbd634c"
+  },
+  "exceptions.rpt": {
+    "bytes": 12582,
+    "sha256": "df1f27d40c6efff026dd4327775302c2baec4590f252f46dd1709ea191f19ee4"
+  },
+  "fpga-manager.bif": {
+    "bytes": 26,
+    "sha256": "6da2ea1e642ac1a54bf65d08a31134f9901beb6151e06cadb62f3cb353aafe23"
+  },
+  "methodology.rpt": {
+    "bytes": 17181,
+    "sha256": "ddf8bedc6afa3cb40adc893c3c0b037c428a2ba560c4af10972e48f11647415f"
+  },
+  "pluto_pcm_fm.bin": {
+    "bytes": 2083740,
+    "sha256": "49f067d39cb9e091f115d37b2a939428f048a491fad478d296314cc9cd6a98e8"
+  },
+  "pluto_pcm_fm.bit": {
+    "bytes": 2083941,
+    "sha256": "0ae852168d0a2e168f92886dcba26d3c3267cea6ea0fe56f0db327c36d834abb"
+  },
+  "pluto_pcm_fm.bit.bin": {
+    "bytes": 2083744,
+    "sha256": "63c4d5061893a088a3cff482bcc4bcb2afd24fd773902518b0ea24bed926bc11"
+  },
+  "pluto_pcm_fm.dcp": {
+    "bytes": 13188661,
+    "sha256": "1fb870bd155725acf0f361fc5af02137fdf4e039cd2a57fdf4473d356e577792"
+  },
+  "pluto_pcm_fm.xsa": {
+    "bytes": 757780,
+    "sha256": "2ac2579e8f3a3f4f1efe0868a29fcea263f997bf1df3dac19c28e0eb22df2595"
+  },
+  "timing.rpt": {
+    "bytes": 155994,
+    "sha256": "d978f87dc6fedf36765b642732292e7c1802c82cfd6d5736a4665f3861bf7303"
+  },
+  "utilization.rpt": {
+    "bytes": 12604,
+    "sha256": "321dbf286ecfd89488c43d160e38ef22b85644e7a4a28e76f72621454098c45b"
+  }
+}

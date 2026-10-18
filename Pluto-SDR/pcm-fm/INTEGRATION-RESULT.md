@@ -1,4 +1,6 @@
-> Hardware update, 2026-10-09: [PCM-FM loopback passed](../captures/pcm-fm-hardware-20261009-072118/RESULT.md). The following records the preceding build milestone.
+> Hardware update, 2026-10-18: the selector was moved after the stock TX
+> interpolator. Selector 0 now preserves the verified DMA path, and selector 1
+> produces received PN15 PCM-FM in the attenuated loopback test.
 
 # Integrated PCM-FM Pluto build
 
@@ -37,8 +39,8 @@ The two-flop selector is reported CDC-3 with ASYNC_REG.
 
 ## Project and artifacts
 
-- Project: `../plutoplus-vivado2026/build/pcm-fm/pluto_pcm_fm.xpr`
-- Artifacts: `../plutoplus-vivado2026/artifacts/pcm-fm/`
+- Project: `../plutoplus-vivado2026/build/pcm-fm-postfir/pluto_pcm_fm.xpr`
+- Artifacts: `../plutoplus-vivado2026/artifacts/pcm-fm-postfir/`
 - `.bit`: Vivado bitstream; `.bin`: raw export.
 - `.bit.bin`: Bootgen-converted Linux FPGA-manager payload for a later volatile load.
 - `.xsa`: hardware platform with matching bitstream; `.dcp`: routed checkpoint.
@@ -58,7 +60,9 @@ delays. Passing the stated timing gates is not proof of complete CDC correctness
 fully constrained board interfaces, or IRIG RF spectral compliance. The physical
 speed grade remains assumed -1, as in the previous verified Pluto build.
 
-Next is a controlled volatile USB load and TX1 -> 30 dB attenuator -> RX2 capture.
-The existing BPSK loader and test must be adapted for the PCM-FM artifact hash
-and FM receive analysis before that test. No flash or device state was changed
-by this integration/build task.
+Hardware verification used TX1 -> 30 dB attenuator -> RX2 at 915 MHz and
+2.5 MS/s. Selector-0 DMA produced a 915.100098 MHz tone at -33.14 dBFS.
+Selector-1 PN15 PCM-FM raised RX RMS to 64.144 counts with -28.33 dBFS power
+inside +/-500 kHz. The bounded verification ended with TX muted, selector 0,
+and the TX buffer disabled. Spectral-mask compliance and production data input
+remain future work.

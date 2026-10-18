@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,subprocess,time
 ROOT=Path(__file__).resolve().parents[1]
 PUTTY=Path('C:/Program Files (x86)/PuTTY')
-DEFAULT_KEY='SHA256:SUIhmvLRVOGksl/o0cIimV6rsIwj9yl1V1zb4mrZpcc'
+DEFAULT_KEY='SHA256:XE9VZSZUPrwq6aTkbb8pEP2lUThVIj8LuEbtBOhChUA'
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument('--host',default='192.168.2.1');p.add_argument('--host-key',default=DEFAULT_KEY)
@@ -15,7 +15,7 @@ def main():
   return r.stdout
  # Verify identity before transfer; never accept a changed key automatically.
  print(ssh('cat /sys/class/fpga_manager/fpga0/state'))
- for source,target in [(ROOT/'plutoplus-vivado2026/artifacts/pcm-fm/pluto_pcm_fm.bit.bin','/lib/firmware/pluto_pcm_fm.bit.bin'),(ROOT/'load-pcm-fm-temporary.sh','/tmp/load-pcm-fm-temporary.sh'),(ROOT/'live/pcm-fm-control.sh','/tmp/pcm-fm-control.sh')]:
+ for source,target in [(ROOT/'plutoplus-vivado2026/artifacts/pcm-fm-postfir/pluto_pcm_fm.bit.bin','/lib/firmware/pluto_pcm_fm_postfir.bit.bin'),(ROOT/'load-pcm-fm-temporary.sh','/tmp/load-pcm-fm-temporary.sh'),(ROOT/'live/pcm-fm-control.sh','/tmp/pcm-fm-control.sh')]:
   subprocess.run([str(PUTTY/'pscp.exe'),'-scp',*opts,str(source),'root@'+a.host+':'+target],check=True,timeout=30)
  print('Reloading FPGA in RAM. USB temporarily disconnects. TX remains muted.')
  ssh('nohup setsid sh /tmp/load-pcm-fm-temporary.sh --confirmed-attenuated-loopback </dev/null >/tmp/pcm-fm-load.log 2>&1 &')

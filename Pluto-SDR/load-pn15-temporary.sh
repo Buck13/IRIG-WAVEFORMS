@@ -39,12 +39,12 @@ for driver in cf_axi_adc cf_axi_dds dma-axi-dmac xiic-i2c; do
     test -w /sys/bus/platform/drivers/$driver/unbind
     test -w /sys/bus/platform/drivers/$driver/bind
 done
+test -w /sys/bus/spi/drivers/ad9361/unbind
+test -w /sys/bus/spi/drivers/ad9361/bind
 test -L /sys/bus/platform/devices/41600000.i2c/driver
-# Preserve the PHY driver/configuration; mute both available TX channels.
-for gain in "$phy"/out_voltage*_hardwaregain; do
-    printf '%s\n' -89.75 > "$gain"
-    grep -q -- '-89.750000' "$gain"
-done
+# Mute TX1 before the FPGA and radio-interface drivers are reinitialized.
+printf '%s' -89.750000 > "$phy/out_voltage0_hardwaregain" 2>/dev/null || :
+grep -q -- '-89.750000' "$phy/out_voltage0_hardwaregain"
 for name in /sys/bus/iio/devices/iio:device*/name; do
     if [ "$(cat "$name")" = cf-ad9361-dds-core-lpc ]; then
         d=${name%/name}
@@ -65,18 +65,22 @@ printf '%s\n' 79024000.cf-ad9361-dds-core-lpc > /sys/bus/platform/drivers/cf_axi
 printf '%s\n' 7c400000.dma > /sys/bus/platform/drivers/dma-axi-dmac/unbind
 printf '%s\n' 7c420000.dma > /sys/bus/platform/drivers/dma-axi-dmac/unbind
 printf '%s\n' 41600000.i2c > /sys/bus/platform/drivers/xiic-i2c/unbind
+printf '%s\n' spi0.0 > /sys/bus/spi/drivers/ad9361/unbind
 echo FPGA_LOAD
 printf '0\n' > /sys/class/fpga_manager/fpga0/flags
 printf 'pluto_pn15.bit.bin\n' > /sys/class/fpga_manager/fpga0/firmware
 [ "$(cat /sys/class/fpga_manager/fpga0/state)" = operating ]
 echo FPGA_OPERATING
-# Restore sample clocks while retaining maximum RF attenuation.
-printf 'fdd\n' > "$phy/ensm_mode"
 printf '%s\n' 41600000.i2c > /sys/bus/platform/drivers/xiic-i2c/bind
+printf '%s\n' spi0.0 > /sys/bus/spi/drivers/ad9361/bind
+sleep 1
 printf '%s\n' 7c400000.dma > /sys/bus/platform/drivers/dma-axi-dmac/bind
 printf '%s\n' 7c420000.dma > /sys/bus/platform/drivers/dma-axi-dmac/bind
 printf '%s\n' 79024000.cf-ad9361-dds-core-lpc > /sys/bus/platform/drivers/cf_axi_dds/bind
 printf '%s\n' 79020000.cf-ad9361-lpc > /sys/bus/platform/drivers/cf_axi_adc/bind
+printf 'fdd\n' > "$phy/ensm_mode"
+printf '%s\n' -89.750000 > "$phy/out_voltage0_hardwaregain"
+grep -q -- '-89.750000' "$phy/out_voltage0_hardwaregain"
 echo DRIVERS_BOUND
 # Keep PN selection off, disable DDS tones after driver initialization.
 test "$(devmem 0x41210000 32)" = 0x00000000

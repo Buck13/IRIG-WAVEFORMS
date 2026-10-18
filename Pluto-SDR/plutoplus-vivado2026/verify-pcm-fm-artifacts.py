@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from zipfile import ZipFile
 
-root = Path(__file__).resolve().parent / 'artifacts' / 'pcm-fm'
+root = Path(__file__).resolve().parent / 'artifacts' / 'pcm-fm-postfir'
 timing = (root / 'timing.rpt').read_text()
 if 'All user specified timing constraints are met.' not in timing or 'VIOLATED' in timing:
     raise SystemExit('Timing report does not pass')

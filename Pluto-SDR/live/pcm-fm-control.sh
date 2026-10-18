@@ -4,8 +4,8 @@ set -eu
 pidfile=/tmp/pcm-fm-tx.pid
 log=/tmp/pcm-fm-tx.log
 phy=/sys/bus/iio/devices/iio:device0
-fw=/lib/firmware/pluto_pcm_fm.bit.bin
-hash=7d4c06da4e1387f05e5d982299e4db2ff012f35cabd4c784a9aedfcd089a6fbd
+fw=/lib/firmware/pluto_pcm_fm_postfir.bit.bin
+hash=63c4d5061893a088a3cff482bcc4bcb2afd24fd773902518b0ea24bed926bc11
 custom() {
  test -f /tmp/pcm-fm-load.log && grep -q TEMPORARY_LOAD_DONE /tmp/pcm-fm-load.log || { echo 'Load verified PCM-FM image first.' >&2; exit 1; }
  printf '%s  %s\n' "$hash" "$fw" | sha256sum -c - >/dev/null
@@ -19,6 +19,7 @@ find_tx() {
  test -n "$tx"
 }
 mute() {
+ echo fdd > "$phy/ensm_mode"
  printf '%s' -89.750000 > "$phy/out_voltage0_hardwaregain" 2>/dev/null || :
  case "$(cat "$phy/out_voltage0_hardwaregain")" in -89.750000*) ;; *) echo 'Could not verify TX1 mute.' >&2; return 1;; esac
 }
@@ -40,7 +41,6 @@ case "${1:-status}" in
   custom
   for f in /sys/bus/iio/devices/iio:device*/buffer/enable; do test "$(cat "$f")" = 0 || { echo 'Stop RX viewer and all streams before prepare.' >&2; exit 1; }; done
   mute; devmem 0x41210000 32 0
-  echo fdd > "$phy/ensm_mode"
   echo 2500000 > "$phy/out_voltage_sampling_frequency"
   echo 2500000 > "$phy/in_voltage_sampling_frequency"
   echo 1000000 > "$phy/out_voltage_rf_bandwidth"

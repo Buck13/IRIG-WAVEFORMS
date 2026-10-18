@@ -26,8 +26,8 @@ echo PREFLIGHT
     echo 'Requires confirmed TX1 -> 30 dB attenuator -> RX2 connection.' >&2
     exit 2
 }
-firmware=/lib/firmware/pluto_pcm_fm.bit.bin
-expected=7d4c06da4e1387f05e5d982299e4db2ff012f35cabd4c784a9aedfcd089a6fbd
+firmware=/lib/firmware/pluto_pcm_fm_postfir.bit.bin
+expected=63c4d5061893a088a3cff482bcc4bcb2afd24fd773902518b0ea24bed926bc11
 printf '%s  %s\n' "$expected" "$firmware" | sha256sum -c -
 [ "$(cat /sys/class/fpga_manager/fpga0/state)" = operating ]
 phy=/sys/bus/iio/devices/iio:device0
@@ -39,12 +39,12 @@ for driver in cf_axi_adc cf_axi_dds dma-axi-dmac xiic-i2c; do
     test -w /sys/bus/platform/drivers/$driver/unbind
     test -w /sys/bus/platform/drivers/$driver/bind
 done
+test -w /sys/bus/spi/drivers/ad9361/unbind
+test -w /sys/bus/spi/drivers/ad9361/bind
 test -L /sys/bus/platform/devices/41600000.i2c/driver
-# Preserve the PHY driver/configuration; mute both available TX channels.
-for gain in "$phy"/out_voltage*_hardwaregain; do
-    printf '%s\n' -89.75 > "$gain"
-    grep -q -- '-89.750000' "$gain"
-done
+# Mute TX1 before the FPGA and radio-interface drivers are reinitialized.
+printf '%s' -89.750000 > "$phy/out_voltage0_hardwaregain" 2>/dev/null || :
+grep -q -- '-89.750000' "$phy/out_voltage0_hardwaregain"
 for name in /sys/bus/iio/devices/iio:device*/name; do
     if [ "$(cat "$name")" = cf-ad9361-dds-core-lpc ]; then
         d=${name%/name}
@@ -65,18 +65,22 @@ printf '%s\n' 79024000.cf-ad9361-dds-core-lpc > /sys/bus/platform/drivers/cf_axi
 printf '%s\n' 7c400000.dma > /sys/bus/platform/drivers/dma-axi-dmac/unbind
 printf '%s\n' 7c420000.dma > /sys/bus/platform/drivers/dma-axi-dmac/unbind
 printf '%s\n' 41600000.i2c > /sys/bus/platform/drivers/xiic-i2c/unbind
+printf '%s\n' spi0.0 > /sys/bus/spi/drivers/ad9361/unbind
 echo FPGA_LOAD
 printf '0\n' > /sys/class/fpga_manager/fpga0/flags
-printf 'pluto_pcm_fm.bit.bin\n' > /sys/class/fpga_manager/fpga0/firmware
+printf 'pluto_pcm_fm_postfir.bit.bin\n' > /sys/class/fpga_manager/fpga0/firmware
 [ "$(cat /sys/class/fpga_manager/fpga0/state)" = operating ]
 echo FPGA_OPERATING
-# Restore sample clocks while retaining maximum RF attenuation.
-printf 'fdd\n' > "$phy/ensm_mode"
 printf '%s\n' 41600000.i2c > /sys/bus/platform/drivers/xiic-i2c/bind
+printf '%s\n' spi0.0 > /sys/bus/spi/drivers/ad9361/bind
+sleep 1
 printf '%s\n' 7c400000.dma > /sys/bus/platform/drivers/dma-axi-dmac/bind
 printf '%s\n' 7c420000.dma > /sys/bus/platform/drivers/dma-axi-dmac/bind
 printf '%s\n' 79024000.cf-ad9361-dds-core-lpc > /sys/bus/platform/drivers/cf_axi_dds/bind
 printf '%s\n' 79020000.cf-ad9361-lpc > /sys/bus/platform/drivers/cf_axi_adc/bind
+printf 'fdd\n' > "$phy/ensm_mode"
+printf '%s\n' -89.750000 > "$phy/out_voltage0_hardwaregain"
+grep -q -- '-89.750000' "$phy/out_voltage0_hardwaregain"
 echo DRIVERS_BOUND
 # Keep PCM-FM selection off, disable DDS tones after driver initialization.
 test "$(devmem 0x41210000 32)" = 0x00000000
