@@ -7,8 +7,8 @@ from rx_backend import Receiver,spectrum
 
 class Reader(QtCore.QThread):
     error=QtCore.Signal(str)
-    def __init__(self,uri,rx,center_mhz,span_mhz,sample_rate_msps,rf_bandwidth_mhz):
-        super().__init__();self.uri=uri;self.rx=rx;self.center=center_mhz*1e6;self.span=span_mhz*1e6;self.sample_rate=sample_rate_msps*1e6;self.rf_bandwidth=rf_bandwidth_mhz*1e6;self.stop_event=threading.Event();self.lock=threading.Lock();self.latest=None
+    def __init__(self,uri,rx,start_mhz,stop_mhz,sample_rate_msps,rf_bandwidth_mhz):
+        super().__init__();self.uri=uri;self.rx=rx;self.start_hz=start_mhz*1e6;self.stop_hz=stop_mhz*1e6;self.center=(self.start_hz+self.stop_hz)/2;self.span=self.stop_hz-self.start_hz;self.sample_rate=sample_rate_msps*1e6;self.rf_bandwidth=rf_bandwidth_mhz*1e6;self.stop_event=threading.Event();self.lock=threading.Lock();self.latest=None
     def run(self):
         receiver=None
         try:
@@ -23,7 +23,7 @@ class Reader(QtCore.QThread):
                     if self.stop_event.is_set():break
                     receiver.set_rx_lo(lo);receiver.capture();z=receiver.capture()
                     freq=lo+np.fft.fftshift(np.fft.fftfreq(len(z),1/fs));power=spectrum(z)
-                    keep=(abs(freq-lo)<=usable/2) if wide else np.ones(len(z),dtype=bool)
+                    keep=(freq>=self.start_hz)&(freq<=self.stop_hz)&(abs(freq-lo)<=usable/2)
                     xs.append(freq[keep]/1e6);ys.append(power[keep]);rms.append(np.sqrt(np.mean(abs(z)**2)));clipped+=int(np.sum((abs(z.real)>=2047)|(abs(z.imag)>=2047)))
                 if not xs:break
                 x=np.concatenate(xs);power=np.concatenate(ys);order=np.argsort(x);x=x[order];power=power[order]
@@ -50,10 +50,10 @@ class Window(QtWidgets.QMainWindow):
         bar=QtWidgets.QHBoxLayout();layout.addLayout(bar)
         self.uri=QtWidgets.QLineEdit(uri);bar.addWidget(self.uri)
         self.rx=QtWidgets.QComboBox();self.rx.addItems(['RX1','RX2']);self.rx.setCurrentIndex(1);bar.addWidget(self.rx)
-        bar.addWidget(QtWidgets.QLabel('Center MHz'))
-        self.center=QtWidgets.QDoubleSpinBox();self.center.setRange(70,6000);self.center.setDecimals(3);self.center.setValue(915);bar.addWidget(self.center)
-        bar.addWidget(QtWidgets.QLabel('Span MHz'))
-        self.span=QtWidgets.QDoubleSpinBox();self.span.setRange(1,100);self.span.setDecimals(1);self.span.setValue(20);bar.addWidget(self.span)
+        bar.addWidget(QtWidgets.QLabel('Start MHz'))
+        self.start_freq=QtWidgets.QDoubleSpinBox();self.start_freq.setRange(70,6000);self.start_freq.setDecimals(3);self.start_freq.setValue(905);bar.addWidget(self.start_freq)
+        bar.addWidget(QtWidgets.QLabel('Stop MHz'))
+        self.stop_freq=QtWidgets.QDoubleSpinBox();self.stop_freq.setRange(70,6000);self.stop_freq.setDecimals(3);self.stop_freq.setValue(925);bar.addWidget(self.stop_freq)
         bar.addWidget(QtWidgets.QLabel('ADC MS/s'))
         self.sample_rate=QtWidgets.QDoubleSpinBox();self.sample_rate.setRange(2.083333,30.72);self.sample_rate.setDecimals(6);self.sample_rate.setValue(2.5);bar.addWidget(self.sample_rate)
         self.sample_rate.setToolTip('Complex RX sample rate. The Pluto may quantize the requested value.')
@@ -71,19 +71,20 @@ class Window(QtWidgets.QMainWindow):
         self.timer=QtCore.QTimer();self.timer.timeout.connect(self.refresh);self.timer.start(80)
     def connect_rx(self):
         if self.worker and self.worker.isRunning():return
-        self.hold=None;self.worker=Reader(self.uri.text(),self.rx.currentIndex()+1,self.center.value(),self.span.value(),self.sample_rate.value(),self.rf_bandwidth.value())
+        if self.stop_freq.value()<=self.start_freq.value():self.status.setText('Stop frequency must be greater than start frequency.');return
+        self.hold=None;self.worker=Reader(self.uri.text(),self.rx.currentIndex()+1,self.start_freq.value(),self.stop_freq.value(),self.sample_rate.value(),self.rf_bandwidth.value())
         self.worker.error.connect(self.status.setText);self.worker.start();self.start.setEnabled(False);self.rx.setEnabled(False);self.uri.setEnabled(False)
-        self.center.setEnabled(False);self.span.setEnabled(False);self.sample_rate.setEnabled(False);self.rf_bandwidth.setEnabled(False)
+        self.start_freq.setEnabled(False);self.stop_freq.setEnabled(False);self.sample_rate.setEnabled(False);self.rf_bandwidth.setEnabled(False)
         self.status.setText('Connecting to receiver…')
     def disconnect_rx(self):
         if self.worker:
             self.worker.stop_event.set()
             if not self.worker.wait(5000):self.status.setText('Waiting for RX to stop…');return False
             self.worker=None
-        self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True);self.status.setText('RX stopped. TX state is unchanged.');return True
+        self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.start_freq.setEnabled(True);self.stop_freq.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True);self.status.setText('RX stopped. TX state is unchanged.');return True
     def refresh(self):
         if not self.worker:return
-        if not self.worker.isRunning():self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True)
+        if not self.worker.isRunning():self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.start_freq.setEnabled(True);self.stop_freq.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True)
         with self.worker.lock:data=self.worker.latest;self.worker.latest=None
         if data is None:return
         x,y,fs,bw,center,mode,rms,clipped=data
