@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 
 class Receiver:
-    def __init__(self,uri='ip:192.168.2.1',rx=2,n=8192):
+    def __init__(self,uri='ip:192.168.2.1',rx=2,n=8192,sample_rate=None,rf_bandwidth=None):
         folder=Path(__file__).resolve().parents[1]/'libiio-v0.26/Windows-VS-2022-x64'
         self.dll_dir=os.add_dll_directory(str(folder))
         self.lib=C.CDLL(str(folder/'libiio.dll')); self.ctx=None; self.buf=None;self.n=n
@@ -34,6 +34,8 @@ class Receiver:
             self.channels=[self.channel(dev,f'voltage{k}'.encode(),False) for k in [2*(rx-1),2*(rx-1)+1]]
             if not all(self.channels):raise RuntimeError('RX channel not available')
             for ch in self.channels:enable(ch)
+            if sample_rate is not None:self.set_setting('voltage0','sampling_frequency',False,sample_rate)
+            if rf_bandwidth is not None:self.set_setting('voltage0','rf_bandwidth',False,rf_bandwidth)
             self.buf=make(dev,n,False)
             if not self.buf:raise RuntimeError('RX buffer unavailable; close other RX applications')
             self.arrays=[np.empty(n,dtype=np.int16) for _ in range(2)]
@@ -43,8 +45,15 @@ class Receiver:
         c=self.channel(self.phy,ch.encode(),output);v=C.c_longlong()
         if not c or self.attr(c,key.encode(),C.byref(v))<0:raise RuntimeError('Cannot read '+key)
         return v.value
+    def set_setting(self,ch,key,output,value):
+        c=self.channel(self.phy,ch.encode(),output)
+        if not c or self.attr_write(c,key.encode(),int(value))<0:
+            raise RuntimeError(f'Cannot set {key} to {int(value)}')
+        return self.setting(ch,key,output)
     def settings(self):
-        return self.setting('voltage0','sampling_frequency',False), self.setting('altvoltage0','frequency',True)
+        return (self.setting('voltage0','sampling_frequency',False),
+                self.setting('altvoltage0','frequency',True),
+                self.setting('voltage0','rf_bandwidth',False))
     def set_rx_lo(self,frequency):
         c=self.channel(self.phy,b'altvoltage0',True)
         if not c or self.attr_write(c,b'frequency',int(frequency))<0:

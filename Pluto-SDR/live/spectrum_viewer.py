@@ -7,12 +7,12 @@ from rx_backend import Receiver,spectrum
 
 class Reader(QtCore.QThread):
     error=QtCore.Signal(str)
-    def __init__(self,uri,rx,center_mhz,span_mhz):
-        super().__init__();self.uri=uri;self.rx=rx;self.center=center_mhz*1e6;self.span=span_mhz*1e6;self.stop_event=threading.Event();self.lock=threading.Lock();self.latest=None
+    def __init__(self,uri,rx,center_mhz,span_mhz,sample_rate_msps,rf_bandwidth_mhz):
+        super().__init__();self.uri=uri;self.rx=rx;self.center=center_mhz*1e6;self.span=span_mhz*1e6;self.sample_rate=sample_rate_msps*1e6;self.rf_bandwidth=rf_bandwidth_mhz*1e6;self.stop_event=threading.Event();self.lock=threading.Lock();self.latest=None
     def run(self):
         receiver=None
         try:
-            receiver=Receiver(self.uri,self.rx);fs,_=receiver.settings();last=0;avg=None
+            receiver=Receiver(self.uri,self.rx,sample_rate=self.sample_rate,rf_bandwidth=self.rf_bandwidth);fs,_,bw=receiver.settings();last=0;avg=None
             wide=self.span>fs*.9
             usable=fs*.8
             count=1 if not wide else 2*int(np.ceil(max(0,self.span-usable)/(2*usable*.75)))+1
@@ -31,7 +31,7 @@ class Reader(QtCore.QThread):
                 now=time.monotonic()
                 if now-last<.08:continue
                 mode=f'sweep {self.span/1e6:g} MHz' if wide else 'live'
-                with self.lock:self.latest=(x,10*np.log10(np.maximum(avg,1e-16)),fs,self.center,mode,float(max(rms)),clipped)
+                with self.lock:self.latest=(x,10*np.log10(np.maximum(avg,1e-16)),fs,bw,self.center,mode,float(max(rms)),clipped)
                 last=now
         except Exception as e:self.error.emit(str(e))
         finally:
@@ -45,7 +45,7 @@ class Window(QtWidgets.QMainWindow):
         super().__init__();self.worker=None;self.hold=None;self.tuning=None
         QtGui.QFontDatabase.addApplicationFont('C:/Windows/Fonts/segoeui.ttf')
         QtWidgets.QApplication.instance().setFont(QtGui.QFont('Segoe UI',10))
-        self.setWindowTitle('Pluto live spectrum — RECEIVE ONLY');self.resize(1050,650)
+        self.setWindowTitle('Pluto live spectrum — RECEIVE ONLY');self.resize(1320,650)
         box=QtWidgets.QWidget();self.setCentralWidget(box);layout=QtWidgets.QVBoxLayout(box)
         bar=QtWidgets.QHBoxLayout();layout.addLayout(bar)
         self.uri=QtWidgets.QLineEdit(uri);bar.addWidget(self.uri)
@@ -54,6 +54,12 @@ class Window(QtWidgets.QMainWindow):
         self.center=QtWidgets.QDoubleSpinBox();self.center.setRange(70,6000);self.center.setDecimals(3);self.center.setValue(915);bar.addWidget(self.center)
         bar.addWidget(QtWidgets.QLabel('Span MHz'))
         self.span=QtWidgets.QDoubleSpinBox();self.span.setRange(1,100);self.span.setDecimals(1);self.span.setValue(20);bar.addWidget(self.span)
+        bar.addWidget(QtWidgets.QLabel('ADC MS/s'))
+        self.sample_rate=QtWidgets.QDoubleSpinBox();self.sample_rate.setRange(2.083333,30.72);self.sample_rate.setDecimals(6);self.sample_rate.setValue(2.5);bar.addWidget(self.sample_rate)
+        self.sample_rate.setToolTip('Complex RX sample rate. The Pluto may quantize the requested value.')
+        bar.addWidget(QtWidgets.QLabel('RX BW MHz'))
+        self.rf_bandwidth=QtWidgets.QDoubleSpinBox();self.rf_bandwidth.setRange(.2,20);self.rf_bandwidth.setDecimals(3);self.rf_bandwidth.setValue(1);bar.addWidget(self.rf_bandwidth)
+        self.rf_bandwidth.setToolTip('AD9361 receive baseband filter bandwidth.')
         self.start=QtWidgets.QPushButton('Start RX');self.start.clicked.connect(self.connect_rx);bar.addWidget(self.start)
         self.stop=QtWidgets.QPushButton('Stop RX');self.stop.clicked.connect(self.disconnect_rx);bar.addWidget(self.stop)
         self.maxhold=QtWidgets.QCheckBox('Max hold');bar.addWidget(self.maxhold)
@@ -65,27 +71,27 @@ class Window(QtWidgets.QMainWindow):
         self.timer=QtCore.QTimer();self.timer.timeout.connect(self.refresh);self.timer.start(80)
     def connect_rx(self):
         if self.worker and self.worker.isRunning():return
-        self.hold=None;self.worker=Reader(self.uri.text(),self.rx.currentIndex()+1,self.center.value(),self.span.value())
+        self.hold=None;self.worker=Reader(self.uri.text(),self.rx.currentIndex()+1,self.center.value(),self.span.value(),self.sample_rate.value(),self.rf_bandwidth.value())
         self.worker.error.connect(self.status.setText);self.worker.start();self.start.setEnabled(False);self.rx.setEnabled(False);self.uri.setEnabled(False)
-        self.center.setEnabled(False);self.span.setEnabled(False)
+        self.center.setEnabled(False);self.span.setEnabled(False);self.sample_rate.setEnabled(False);self.rf_bandwidth.setEnabled(False)
         self.status.setText('Connecting to receiver…')
     def disconnect_rx(self):
         if self.worker:
             self.worker.stop_event.set()
             if not self.worker.wait(5000):self.status.setText('Waiting for RX to stop…');return False
             self.worker=None
-        self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True);self.status.setText('RX stopped. TX state is unchanged.');return True
+        self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True);self.status.setText('RX stopped. TX state is unchanged.');return True
     def refresh(self):
         if not self.worker:return
-        if not self.worker.isRunning():self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True)
+        if not self.worker.isRunning():self.start.setEnabled(True);self.rx.setEnabled(True);self.uri.setEnabled(True);self.center.setEnabled(True);self.span.setEnabled(True);self.sample_rate.setEnabled(True);self.rf_bandwidth.setEnabled(True)
         with self.worker.lock:data=self.worker.latest;self.worker.latest=None
         if data is None:return
-        x,y,fs,center,mode,rms,clipped=data
+        x,y,fs,bw,center,mode,rms,clipped=data
         if self.tuning!=(fs,center,len(x)):self.hold=None;self.tuning=(fs,center,len(x))
         self.trace.setData(x,y);self.plot.setXRange(x[0],x[-1],padding=0)
         self.hold=y.copy() if self.hold is None else np.maximum(self.hold,y)
         self.held.setData(x,self.hold if self.maxhold.isChecked() else np.full_like(y,np.nan))
-        self.status.setText(f'{self.rx.currentText()} • {mode} • center {center/1e6:.3f} MHz • ADC {fs/1e6:.3f} MS/s • peak RMS {rms:.2f} • clipped {clipped}')
+        self.status.setText(f'{self.rx.currentText()} • {mode} • center {center/1e6:.3f} MHz • ADC {fs/1e6:.3f} MS/s • RX BW {bw/1e6:.3f} MHz • peak RMS {rms:.2f} • clipped {clipped}')
     def closeEvent(self,event):
         if self.disconnect_rx():event.accept()
         else:event.ignore()

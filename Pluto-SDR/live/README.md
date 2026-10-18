@@ -46,14 +46,21 @@ Double-click `Open-Spectrum.cmd` in this folder, or run:
 & .\.venv\Scripts\python.exe .\Pluto-SDR\live\spectrum_viewer.py
 ```
 
-Leave URI `ip:192.168.2.1`, select RX2, choose a center and span, and click
-**Start RX**. A span within the instantaneous sample bandwidth gives a fast
+Leave URI `ip:192.168.2.1`, select RX2, choose a center, span, **ADC MS/s** and
+**RX BW MHz**, then click **Start RX**. The viewer applies the requested RX
+sample rate and AD9361 receive-filter bandwidth before opening the stream. The
+status line reports the values accepted by the hardware. Stop RX before changing
+these settings. A span within the instantaneous sample bandwidth gives a fast
 continuous FFT. A wider span sweeps the RX LO across the requested range and
 stitches the FFT sections; it updates more slowly. The default is 915 MHz with
 a 20 MHz span. The viewer may retune RX only; it never retunes or enables TX.
 Levels are relative dBFS per FFT bin, not calibrated RF dBm. Only one program
 can own the RX buffer; stop the viewer before running the older capture script.
 **Stop RX** releases the receiver only. It does not turn transmission off.
+
+For a 915 MHz transmission with a 1 MHz zero-IF offset, use center 914 MHz,
+ADC 5 MS/s, RX BW 3 MHz and span 4 MHz. The graph still labels the signal at
+its absolute 915 MHz RF frequency.
 
 ## 4. Open SSH in PuTTY
 
