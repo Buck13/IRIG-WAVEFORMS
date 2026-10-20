@@ -63,3 +63,49 @@ Pluto route, not on the standalone LUT count alone.
 These scripts use Vivado 2026.1 XSIM and synthesis. They do not require Pluto
 hardware and do not alter the device.
 
+## Implemented Pluto image result
+
+The separate CPM-H image completed synthesis, placement, routing, DRC and
+bitstream generation in Vivado 2026.1. Post-route timing passed with +0.994 ns
+setup slack and +0.022 ns hold slack. The complete image uses:
+
+- 4317/4400 slices (98.11%);
+- 11588/17600 LUTs (65.84%);
+- 18976/35200 registers (53.91%);
+- 3.5/60 BRAM tiles (5.83%);
+- 72/80 DSP48E1 blocks (90.00%).
+
+The entire `pn15_tx` hierarchy uses 358 LUTs, 163 registers, three RAMB18
+blocks and zero DSP blocks. Its `cpm_h_tx_core` accounts for 324 LUTs and 127
+registers. The custom modulator is therefore not responsible for the high DSP
+use.
+
+The 72 DSP blocks in the complete image are distributed as follows:
+
+- 22 in the two receive FIR decimators (11 each);
+- 22 in the two transmit FIR interpolators (11 each);
+- 28 in the stock AD9361 interface: 12 in its four receive channels and 16 in
+  its four transmit channels.
+
+The current image deliberately retains the stock DMA path, both RF channels,
+and the complete receive path so that TX1-to-RX2 cable-loopback testing remains
+available. The most useful future size variants are:
+
+1. A dedicated CPM-H transmitter can remove the unused DMA fallback and the
+   transmit FIR pair, recovering 22 DSPs plus roughly 900 LUTs and more than
+   2400 registers across the FIR and DMA hierarchy.
+2. A 1R1T build, tested with TX1 connected to RX1, can eliminate the second RF
+   channel datapaths. This saves 14 AD9361-interface DSPs and several thousand
+   LUT/register resources while retaining loopback capture.
+3. Removing the receive FIR pair saves another 22 DSPs, but changes the receive
+   sample-rate/filtering path and should only be done in a purpose-built
+   transmit-only image.
+
+The BRAM sine table and small source FIFO should remain. BRAM use is low, and
+replacing these memories with logic would make the actual constraint—slice
+packing—worse.
+
+Build artifacts and the detailed hierarchical utilization report are under
+`plutoplus-vivado2026/artifacts/cpm-h-postfir/`. The FPGA-manager loadable file
+is `pluto_cpm_h.bit.bin`.
+
