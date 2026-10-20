@@ -98,7 +98,8 @@ class Window(QtWidgets.QMainWindow):
         else:event.ignore()
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--uri',default='ip:192.168.2.1');parser.add_argument('--smoke-test',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--uri',default='ip:192.168.2.1');parser.add_argument('--smoke-test',action='store_true');parser.add_argument('--auto-start',action='store_true');args=parser.parse_args()
     app=QtWidgets.QApplication(sys.argv[:1]);win=Window(args.uri);win.show()
+    if args.auto_start:QtCore.QTimer.singleShot(500,win.connect_rx)
     if args.smoke_test:QtCore.QTimer.singleShot(800,win.close)
     sys.exit(app.exec())
