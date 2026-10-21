@@ -220,3 +220,6 @@ __marimo__/
 # Large/generated Pluto CPM-H capture data
 Pluto-SDR/captures/cpm-h-demod-*/decoded_dibits.npy
 Pluto-SDR/captures/cpm-h-demod-20261021-202252/
+
+# GHDL analyzed-library cache
+*.cf

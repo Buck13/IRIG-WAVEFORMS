@@ -130,3 +130,11 @@ The verified TX1-to-RX2 capture in
 errors at 915 MHz through 30 dB external attenuation. See its `RESULT.md` and
 `result.json`. This is a short functional verification, not a measured BER or
 receiver-sensitivity claim.
+
+## Low-level receiver implementation
+
+The fixed-point CPM-specific Viterbi reference, executed Python-to-VHDL
+notebook, and first synthesizable branch-metric unit are in `receiver/`.
+The custom detector uses the ARTM CPM phase/memory trellis; Vivado's packaged
+Viterbi Decoder IP targets convolutional FEC codes and cannot replace this
+waveform sequence detector.
