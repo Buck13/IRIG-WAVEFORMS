@@ -1,0 +1,14 @@
+{
+  "coarse": 851913,
+  "score": 0.6810274973641617,
+  "reference_sample": 151853,
+  "conjugated": false,
+  "start_pos": 861932,
+  "absolute_symbol": 4746,
+  "phase": 1.9592986800424854,
+  "gain": 220.9053321126751,
+  "dibits": 512,
+  "bit_errors": 0,
+  "ber": 0.0,
+  "cost_per_sample": 0.002505443441763161
+}

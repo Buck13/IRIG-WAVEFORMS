@@ -109,3 +109,24 @@ Build artifacts and the detailed hierarchical utilization report are under
 `plutoplus-vivado2026/artifacts/cpm-h-postfir/`. The FPGA-manager loadable file
 is `pluto_cpm_h.bit.bin`.
 
+
+## Hardware loopback demodulation verification
+
+`capture_demod_hardware.py` performs the first end-to-end receive verification
+at 1 Mbit/s. It configures the Pluto for 16 MS/s, briefly captures RX2 while the
+FPGA PN15 source begins transmitting on TX1, synchronizes the recording to the
+known CPM-H sequence, restores the exact CPM trellis state, and runs the Python
+coherent Viterbi detector. The script mutes TX during cleanup.
+
+Run it with the current Pluto SSH host-key fingerprint:
+
+```powershell
+& ..\.venv\Scripts\python.exe .\cpm-h\capture_demod_hardware.py `
+  --host-key "SHA256:CURRENT_PLUTO_HOST_KEY"
+```
+
+The verified TX1-to-RX2 capture in
+`captures/cpm-h-demod-20261021-202354/` recovered 1024/1024 bits with zero
+errors at 915 MHz through 30 dB external attenuation. See its `RESULT.md` and
+`result.json`. This is a short functional verification, not a measured BER or
+receiver-sensitivity claim.

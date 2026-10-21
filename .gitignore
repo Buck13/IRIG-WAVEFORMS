@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Large/generated Pluto CPM-H capture data
+Pluto-SDR/captures/cpm-h-demod-*/decoded_dibits.npy
+Pluto-SDR/captures/cpm-h-demod-20261021-202252/
