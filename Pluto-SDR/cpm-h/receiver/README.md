@@ -27,3 +27,11 @@ zero errors over 1024 bits. This does not make the present VHDL a complete
 real-time detector. Template/correlation parallelism, ACS scheduling, survivor
 RAM, bounded traceback, and acquisition/tracking remain to be implemented and
 measured.
+
+## Observation-count experiment
+
+`metric_reduction_experiment.py` compares 32, 16, 8 and 4 IQ observations per
+dibit against the saved Pluto capture and controlled noisy signals. The first
+RTL target is 16 evenly spaced observations per dibit. See
+`results/metric-reduction/RESULT.md` for the measured errors and cycle-budget
+implications.
