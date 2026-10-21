@@ -1,0 +1,66 @@
+{
+  "observations_per_dibit": 16,
+  "positions": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30
+  ],
+  "capture_bits": 1024,
+  "base_correlations_per_dibit": 64,
+  "phase_scores_per_dibit": 1024,
+  "clock_cycles_per_dibit_100mhz": 200,
+  "exact_float": {
+    "bit_errors": 0,
+    "seconds": 0.9715468999929726
+  },
+  "fixed_q12_rotation_q16": {
+    "bit_errors": 0,
+    "seconds": 1.0062722000002395
+  },
+  "fixed_vs_float_dibit_mismatches": 0,
+  "minimum_complex_mac_lanes_100mhz": 6,
+  "minimum_phase_score_lanes_100mhz": 6,
+  "noisy_simulation": [
+    {
+      "snr_db": 12,
+      "payload_bits": 640,
+      "direct_bit_errors": 0,
+      "factored_bit_errors": 0,
+      "direct_vs_factored_dibit_mismatches": 0
+    },
+    {
+      "snr_db": 6,
+      "payload_bits": 640,
+      "direct_bit_errors": 0,
+      "factored_bit_errors": 0,
+      "direct_vs_factored_dibit_mismatches": 0
+    },
+    {
+      "snr_db": 3,
+      "payload_bits": 640,
+      "direct_bit_errors": 0,
+      "factored_bit_errors": 0,
+      "direct_vs_factored_dibit_mismatches": 0
+    },
+    {
+      "snr_db": 0,
+      "payload_bits": 640,
+      "direct_bit_errors": 0,
+      "factored_bit_errors": 0,
+      "direct_vs_factored_dibit_mismatches": 0
+    }
+  ]
+}

@@ -35,3 +35,10 @@ dibit against the saved Pluto capture and controlled noisy signals. The first
 RTL target is 16 evenly spaced observations per dibit. See
 `results/metric-reduction/RESULT.md` for the measured errors and cycle-budget
 implications.
+
+## Factorized correlation-bank metric
+
+`correlation_bank_experiment.py` proves the 64-base-waveform correlation
+factorization against the Pluto capture, noisy vectors, and the original direct
+squared-distance detector. `hardware/cpm_complex_correlator.vhd` is the first
+streaming complex-MAC lane. Results are in `results/correlation-bank/`.
