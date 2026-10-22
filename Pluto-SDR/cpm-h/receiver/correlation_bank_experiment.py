@@ -76,9 +76,17 @@ def correlation_viterbi(received,positions,initial_state,absolute_symbol,
         updated={}; links={}
         for (p,b,c),old in metrics.items():
             for d,a in enumerate(ALPHABET):
-                value=corr[(parity,b,c,d)]*rotations[p]
+                cvalue=corr[(parity,b,c,d)]
+                if fixed:
+                    # A 16-sample Q12 complex correlation needs about 27 bits.
+                    # Normalize to signed 18 bits so each phase multiply fits
+                    # one DSP48E1 input without changing the common scale.
+                    cvalue=(int(np.real(cvalue)) >> 9)+1j*(int(np.imag(cvalue)) >> 9)
+                value=cvalue*rotations[p]
                 # Common scale factors and RX/template energies do not affect ACS.
-                branch=-int(np.real(value)) if fixed else -float(np.real(value))
+                # Q12 correlation times Q15 phase coefficient. Remove the Q15
+                # rotation scale before entering the bounded path-metric unit.
+                branch=-(int(np.real(value)) >> 15) if fixed else -float(np.real(value))
                 destination=((p+H*c)%32,int(a),b)
                 candidate=old+branch
                 if candidate < updated.get(destination,np.inf):
@@ -105,6 +113,7 @@ def main():
     positions=np.arange(0,SPS,2)
     result={'observations_per_dibit':len(positions),'positions':positions.tolist(),
             'capture_bits':2*count,'base_correlations_per_dibit':64,
+            'correlation_normalization_shift_bits':9,
             'phase_scores_per_dibit':1024,'clock_cycles_per_dibit_100mhz':200}
     decoded={}
     for fixed in (False,True):

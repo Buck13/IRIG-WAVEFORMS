@@ -42,3 +42,11 @@ implications.
 factorization against the Pluto capture, noisy vectors, and the original direct
 squared-distance detector. `hardware/cpm_complex_correlator.vhd` is the first
 streaming complex-MAC lane. Results are in `results/correlation-bank/`.
+
+## Phase-score and ACS lane
+
+`hardware/cpm_phase_acs4.vhd` evaluates the four legal predecessors of one CPM
+destination state and emits its winning metric and two-bit survivor. The
+18-bit correlation normalization is verified in the complete Python detector.
+Standalone XC7Z010 synthesis results are recorded in
+`results/PHASE_ACS_RESULT.md`.

@@ -20,15 +20,16 @@
   ],
   "capture_bits": 1024,
   "base_correlations_per_dibit": 64,
+  "correlation_normalization_shift_bits": 9,
   "phase_scores_per_dibit": 1024,
   "clock_cycles_per_dibit_100mhz": 200,
   "exact_float": {
     "bit_errors": 0,
-    "seconds": 0.9715468999929726
+    "seconds": 0.9318430999992415
   },
   "fixed_q12_rotation_q16": {
     "bit_errors": 0,
-    "seconds": 1.0062722000002395
+    "seconds": 1.6457910000026459
   },
   "fixed_vs_float_dibit_mismatches": 0,
   "minimum_complex_mac_lanes_100mhz": 6,
