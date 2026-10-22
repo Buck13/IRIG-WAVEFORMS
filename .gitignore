@@ -223,3 +223,6 @@ Pluto-SDR/captures/cpm-h-demod-20261021-202252/
 
 # GHDL analyzed-library cache
 *.cf
+
+# Vivado local workspace cache
+.Xil/

@@ -50,3 +50,11 @@ destination state and emits its winning metric and two-bit survivor. The
 18-bit correlation normalization is verified in the complete Python detector.
 Standalone XC7Z010 synthesis results are recorded in
 `results/PHASE_ACS_RESULT.md`.
+
+## Two-lane state scheduler
+
+`viterbi_scheduler.py` exports the four steady-state epoch tables used by
+`hardware/cpm_state_scheduler.vhd`. The VHDL scheduler issues two destination
+states per clock and completes 256 states in 128 clocks. See
+`results/SCHEDULER_RESULT.md` for verification and the synchronous-BRAM metric
+memory requirement discovered during synthesis.
