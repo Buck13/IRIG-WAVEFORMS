@@ -26,7 +26,15 @@ begin
   begin
     if rising_edge(clk) then
       job_valid<='0';done<='0';
-      if reset='1' then running<='0';cycle<=0;
+      if reset='1' then
+        running<='0'; cycle<=0;
+        destination0<=(others=>'0'); destination1<=(others=>'0');
+        pred0<=(others=>'0'); pred1<=(others=>'0'); pred2<=(others=>'0'); pred3<=(others=>'0');
+        corr0<=(others=>'0'); corr1<=(others=>'0'); corr2<=(others=>'0'); corr3<=(others=>'0');
+        phase0<=(others=>'0'); phase1<=(others=>'0'); phase2<=(others=>'0'); phase3<=(others=>'0');
+        lane1_pred0<=(others=>'0'); lane1_pred1<=(others=>'0'); lane1_pred2<=(others=>'0'); lane1_pred3<=(others=>'0');
+        lane1_corr0<=(others=>'0'); lane1_corr1<=(others=>'0'); lane1_corr2<=(others=>'0'); lane1_corr3<=(others=>'0');
+        lane1_phase0<=(others=>'0'); lane1_phase1<=(others=>'0'); lane1_phase2<=(others=>'0'); lane1_phase3<=(others=>'0');
       elsif start='1' and running='0' then running<='1';cycle<=0;
       elsif running='1' then
         base0:=to_integer(epoch)*1024+(2*cycle)*4;

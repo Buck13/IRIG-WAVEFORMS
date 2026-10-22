@@ -58,3 +58,10 @@ Standalone XC7Z010 synthesis results are recorded in
 states per clock and completes 256 states in 128 clocks. See
 `results/SCHEDULER_RESULT.md` for verification and the synchronous-BRAM metric
 memory requirement discovered during synthesis.
+
+## Integrated Viterbi engine
+
+`hardware/cpm_viterbi_engine.vhd` is the single-block state-update engine. It
+accepts the 64 correlation results for one dibit and emits the two-lane survivor
+write stream used by the future traceback memory. Its functional and 100 MHz
+synthesis results are recorded in `results/VITERBI_ENGINE_RESULT.md`.

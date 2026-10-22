@@ -23,7 +23,8 @@ begin
         read(l,vo);read(l,vcr);read(l,vci);read(l,vp);
         old(k)<=to_signed(vo,48);cr(k)<=to_signed(vcr,18);ci(k)<=to_signed(vci,18);p(k)<=to_unsigned(vp,5);
       end loop;read(l,expected);read(l,win);
-      wait until falling_edge(clk);iv<='1';wait until rising_edge(clk);wait for 1 ns;
+      wait until falling_edge(clk);iv<='1';wait until rising_edge(clk);wait until falling_edge(clk);iv<='0';
+      loop wait until rising_edge(clk);wait for 1 ns;exit when ov='1';end loop;
       assert ov='1' report "output_valid mismatch" severity failure;
       assert to_integer(metric)=expected report "metric mismatch at vector "&integer'image(count) severity failure;
       assert to_integer(survivor)=win report "survivor mismatch at vector "&integer'image(count) severity failure;
