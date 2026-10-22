@@ -71,3 +71,6 @@ synthesis results are recorded in `results/VITERBI_ENGINE_RESULT.md`.
 32-dibit survivor history and traceback controller. After its history fills it
 emits recovered dibits. Verification and full wrapper synthesis figures are in
 `results/TRACEBACK_RESULT.md`.
+## Correlation front end and complete detector
+
+hardware/cpm_correlation_bank.vhd implements the 64-template front end with six complex-MAC lanes and accepts each of the 16 aligned observations in a 12-clock interval. hardware/cpm_h_detector.vhd connects it directly to the Viterbi and traceback blocks. The complete aligned-input detector meets 100 MHz on the XC7Z010 and uses 36.64% LUT, 23.62% registers, 38.33% BRAM, and 50% DSP. See results/CORRELATION_DETECTOR_RESULT.md for the verification, throughput boundary, and remaining synchronization work.
