@@ -65,3 +65,9 @@ memory requirement discovered during synthesis.
 accepts the 64 correlation results for one dibit and emits the two-lane survivor
 write stream used by the future traceback memory. Its functional and 100 MHz
 synthesis results are recorded in `results/VITERBI_ENGINE_RESULT.md`.
+## Survivor traceback
+
+`hardware/cpm_viterbi_decoder.vhd` combines the state-update engine with a
+32-dibit survivor history and traceback controller. After its history fills it
+emits recovered dibits. Verification and full wrapper synthesis figures are in
+`results/TRACEBACK_RESULT.md`.
