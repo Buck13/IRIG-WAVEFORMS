@@ -9,7 +9,7 @@ performs traceback through the ARTM multi-h CPM trellis.
 `CPM_H_receiver_Python_to_VHDL.ipynb` explains the arithmetic and throughput
 limit. Regenerate it with `build_receiver_notebook.py`.
 
-The current VHDL implements and verifies the first reusable unit:
+The VHDL now implements the complete manually aligned receive chain:
 
 - `hardware/cpm_branch_metric.vhd`: one streaming squared-IQ branch metric;
 - `hardware/tb_cpm_branch_metric.vhd`: checks Python vectors;
@@ -23,10 +23,10 @@ Run the checks from this directory:
 ```
 
 The Python fixed-point Viterbi recovered the saved Pluto loopback capture with
-zero errors over 1024 bits. This does not make the present VHDL a complete
-real-time detector. Template/correlation parallelism, ACS scheduling, survivor
-RAM, bounded traceback, and acquisition/tracking remain to be implemented and
-measured.
+zero errors over 1024 bits. The RTL now includes template correlation,
+two-lane ACS scheduling, survivor RAM, bounded traceback, a manual observation
+adapter, clock crossing and processor controls. Automatic carrier/timing/epoch
+acquisition remains to be implemented.
 
 ## Observation-count experiment
 
@@ -74,3 +74,12 @@ emits recovered dibits. Verification and full wrapper synthesis figures are in
 ## Correlation front end and complete detector
 
 hardware/cpm_correlation_bank.vhd implements the 64-template front end with six complex-MAC lanes and accepts each of the 16 aligned observations in a 12-clock interval. hardware/cpm_h_detector.vhd connects it directly to the Viterbi and traceback blocks. The complete aligned-input detector meets 100 MHz on the XC7Z010 and uses 36.64% LUT, 23.62% registers, 38.33% BRAM, and 50% DSP. See results/CORRELATION_DETECTOR_RESULT.md for the verification, throughput boundary, and remaining synchronization work.
+
+## Pluto RX-only image
+
+`hardware/cpm_rx_observation_adapter.vhd` and
+`hardware/pluto_cpm_rx_controlled.vhd` connect the detector to the Pluto RX1
+stream with manual timing-offset and starting-epoch controls. The complete
+RX-only image fits the XC7Z010 and passes post-route timing and DRC. See
+`results/MANUAL_RX_INTEGRATION_RESULT.md` for resource use, control-register
+layout, limitations and artifact location.
