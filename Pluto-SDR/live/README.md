@@ -1,5 +1,22 @@
 # Live spectrum and manual continuous PCM-FM TX
 
+## CPM-H receiver demonstration panel
+
+After loading the `cpm-h-rx-auto-loop` image, launch
+`Open-CPM-H-Monitor.cmd`. The panel combines the RX2 spectrum, continuous
+host-DMA CPM-H transmitter, data-rate control, and repeated FPGA acquisition.
+The rate control covers 130.209 to 500 kbit/s with 32 samples per dibit;
+500 kbit/s is the verified maximum of the current XC7Z010 receiver.
+
+The indicator is green when the best timing/epoch search has no more than two
+PN15 errors in 64 checked bits. Removing the attenuated TX1-to-RX2 coax should
+turn it red on the next search. Reconnecting the coax should return it to green
+without restarting TX. Stop TX mutes TX1 and puts the radio to sleep.
+
+The SSH fingerprint changes whenever this Pluto image is power-cycled. If the
+panel reports a host-key error, verify the new fingerprint over the direct USB
+connection and replace the value in the panel before starting TX.
+
 The viewer is receive-only. Starting/stopping/closing it does not control TX.
 The SSH controller starts an independent cyclic TX stream on the Pluto.
 **Continuous TX stays on after closing PuTTY or the viewer. Use the stop command.**
