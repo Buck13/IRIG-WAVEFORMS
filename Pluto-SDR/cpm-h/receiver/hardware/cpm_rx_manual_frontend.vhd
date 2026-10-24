@@ -21,14 +21,16 @@ architecture rtl of cpm_rx_manual_frontend is
   signal sample_i,sample_q:signed(11 downto 0);
   signal epoch:unsigned(1 downto 0);
   signal adapter_drop,detector_overflow:std_logic;
+  signal receiver_reset:std_logic;
 begin
+  receiver_reset<=reset or restart or not enable;
   adapter:entity work.cpm_rx_observation_adapter
     port map(clk,reset,enable,restart,timing_offset,start_epoch,
       adc_valid_i,adc_valid_q,adc_i,adc_q,sample_ready,
       sample_valid,symbol_start,sample_i,sample_q,epoch,aligned,adapter_drop);
   detector:entity work.cpm_h_detector
     generic map(TRACEBACK_DEPTH)
-    port map(clk,reset,sample_valid,sample_ready,symbol_start,epoch,sample_i,sample_q,
+    port map(clk,receiver_reset,sample_valid,sample_ready,symbol_start,epoch,sample_i,sample_q,
       decoded_valid,decoded_dibit,detector_busy,detector_overflow);
   dropped_observation<=adapter_drop;
   overflow<=detector_overflow;

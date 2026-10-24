@@ -78,8 +78,22 @@ hardware/cpm_correlation_bank.vhd implements the 64-template front end with six 
 ## Pluto RX-only image
 
 `hardware/cpm_rx_observation_adapter.vhd` and
-`hardware/pluto_cpm_rx_controlled.vhd` connect the detector to the Pluto RX1
+`hardware/pluto_cpm_rx_controlled.vhd` connect the detector to a selected Pluto RX
 stream with manual timing-offset and starting-epoch controls. The complete
 RX-only image fits the XC7Z010 and passes post-route timing and DRC. See
 `results/MANUAL_RX_INTEGRATION_RESULT.md` for resource use, control-register
 layout, limitations and artifact location.
+
+## Automatic PN15 loopback image
+
+The `cpm-h-rx-auto-loop` image keeps the normal DMA transmit path and connects
+the CPM-H detector to RX2. `hardware/cpm_pn15_quality.vhd` learns 15 decoded
+bits and checks the following 64 bits against the PN15 recurrence. The
+device-side `auto` command searches 32 sample offsets and four CPM epochs.
+
+The physical TX1 -> 30 dB attenuator -> RX2 test passed five consecutive
+automatic acquisitions with 0/64 PN15 errors at 500 kbit/s (8 MS/s and 32
+samples/dibit). No input samples were dropped and no detector overflow was
+reported. At 1 Mbit/s the current 100 MHz implementation reports dropped
+samples, so 500 kbit/s is the verified real-time rate for this build. See
+`results/AUTO_RX_LOOPBACK_RESULT.md` for build, resource, and test details.

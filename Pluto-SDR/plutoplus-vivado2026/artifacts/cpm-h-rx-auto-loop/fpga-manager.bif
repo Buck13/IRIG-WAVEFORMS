@@ -1,0 +1,5 @@
+all:
+{
+  pluto_cpm_h_rx_auto_loop.bit
+}
+

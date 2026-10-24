@@ -19,7 +19,8 @@ foreach source {
   cpm_rx_observation_adapter cpm_template_rom6 cpm_correlation_bank
   cpm_receiver_pkg cpm_schedule_pkg cpm_state_scheduler cpm_metric_tdp_ram
   cpm_metric_banks cpm_phase_acs4 cpm_viterbi_engine cpm_survivor_traceback
-  cpm_viterbi_decoder cpm_h_detector cpm_rx_manual_frontend pluto_cpm_rx_controlled
+  cpm_viterbi_decoder cpm_h_detector cpm_rx_manual_frontend cpm_pn15_quality
+  pluto_cpm_rx_controlled
 } {
   add_files -norecurse [file join $rxhdl ${source}.vhd]
   set_property FILE_TYPE {VHDL 2008} [get_files *${source}.vhd]

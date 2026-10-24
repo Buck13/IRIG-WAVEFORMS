@@ -1,0 +1,201 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.1 (win64) Build 6511674 Tue Jun 16 11:02:23 MDT 2026
+| Date         : Sat Oct 24 09:52:33 2026
+| Host         : HendrikDesktop running 64-bit major release  (build 9200)
+| Command      : report_utilization -hierarchical -hierarchical_depth 8 -file C:/SDR_Work/IRIG-WAVEFORMS/Pluto-SDR/plutoplus-vivado2026/artifacts/cpm-h-rx-auto-loop/utilization-hierarchical.rpt
+| Design       : system_top
+| Device       : xc7z010clg400-1
+| Speed File   : -1
+| Design State : Physopt postRoute
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++--------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+|                        Instance                        |                             Module                             | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
++--------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+| system_top                                             |                                                          (top) |      11833 |      11280 |     440 |  113 | 17948 |     10 |     31 |         52 |
+|   (system_top)                                         |                                                          (top) |          0 |          0 |       0 |    0 |     0 |      0 |      0 |          0 |
+|   i_system_wrapper                                     |                                                 system_wrapper |      11833 |      11280 |     440 |  113 | 17948 |     10 |     31 |         52 |
+|     system_i                                           |                                                         system |      11833 |      11280 |     440 |  113 | 17948 |     10 |     31 |         52 |
+|       axi_ad9361                                       |                                            system_axi_ad9361_0 |       2783 |       2750 |       0 |   33 |  5963 |      0 |      0 |         12 |
+|         inst                                           |                                                     axi_ad9361 |       2783 |       2750 |       0 |   33 |  5963 |      0 |      0 |         12 |
+|           (inst)                                       |                                                     axi_ad9361 |          0 |          0 |       0 |    0 |   101 |      0 |      0 |          0 |
+|           i_dev_if                                     |                                             axi_ad9361_cmos_if |         95 |         95 |       0 |    0 |   183 |      0 |      0 |          0 |
+|             (i_dev_if)                                 |                                             axi_ad9361_cmos_if |          8 |          8 |       0 |    0 |   183 |      0 |      0 |          0 |
+|           i_rx                                         |                                                  axi_ad9361_rx |       1322 |       1289 |       0 |   33 |  3518 |      0 |      0 |         12 |
+|             (i_rx)                                     |                                                  axi_ad9361_rx |         70 |         70 |       0 |    0 |    36 |      0 |      0 |          0 |
+|             i_delay_cntrl                              |                                                 up_delay_cntrl |          5 |          5 |       0 |    0 |    96 |      0 |      0 |          0 |
+|               (i_delay_cntrl)                          |                                                 up_delay_cntrl |          5 |          5 |       0 |    0 |    91 |      0 |      0 |          0 |
+|             i_rx_channel_0                             |                                          axi_ad9361_rx_channel |        286 |        277 |       0 |    9 |   777 |      0 |      0 |          3 |
+|               (i_ad_iqcor)                             |                                                    ad_iqcor_76 |         39 |         38 |       0 |    1 |    81 |      0 |      0 |          0 |
+|               i_ad_dcfilter                            |                                                 ad_dcfilter_75 |         40 |         40 |       0 |    0 |   176 |      0 |      0 |          1 |
+|               i_rx_pnmon                               |                                            axi_ad9361_rx_pnmon |         61 |         61 |       0 |    0 |   160 |      0 |      0 |          0 |
+|                 (i_rx_pnmon)                           |                                            axi_ad9361_rx_pnmon |          2 |          2 |       0 |    0 |   151 |      0 |      0 |          0 |
+|                 i_pnmon                                |                                                    ad_pnmon_77 |         59 |         59 |       0 |    0 |     9 |      0 |      0 |          0 |
+|               i_up_adc_channel                         |                                                 up_adc_channel |        138 |        138 |       0 |    0 |   347 |      0 |      0 |          0 |
+|                 (i_up_adc_channel)                     |                                                 up_adc_channel |         55 |         55 |       0 |    0 |   157 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized1__xdcDup__1 |         72 |         72 |       0 |    0 |   170 |      0 |      0 |          0 |
+|             i_rx_channel_1                             |                          axi_ad9361_rx_channel__parameterized0 |        280 |        272 |       0 |    8 |   760 |      0 |      0 |          3 |
+|               (i_ad_iqcor)                             |                                    ad_iqcor__parameterized0_68 |         38 |         38 |       0 |    0 |    80 |      0 |      0 |          0 |
+|               i_ad_dcfilter                            |                                                 ad_dcfilter_67 |         40 |         40 |       0 |    0 |   176 |      0 |      0 |          1 |
+|               i_rx_pnmon                               |                            axi_ad9361_rx_pnmon__parameterized0 |         59 |         59 |       0 |    0 |   144 |      0 |      0 |          0 |
+|                 (i_rx_pnmon)                           |                            axi_ad9361_rx_pnmon__parameterized0 |          2 |          2 |       0 |    0 |   135 |      0 |      0 |          0 |
+|                 i_pnmon                                |                                                    ad_pnmon_69 |         57 |         57 |       0 |    0 |     9 |      0 |      0 |          0 |
+|               i_up_adc_channel                         |                                 up_adc_channel__parameterized0 |        135 |        135 |       0 |    0 |   347 |      0 |      0 |          0 |
+|                 (i_up_adc_channel)                     |                                 up_adc_channel__parameterized0 |         55 |         55 |       0 |    0 |   157 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized1__xdcDup__2 |         71 |         71 |       0 |    0 |   170 |      0 |      0 |          0 |
+|             i_rx_channel_2                             |                          axi_ad9361_rx_channel__parameterized1 |        282 |        274 |       0 |    8 |   760 |      0 |      0 |          3 |
+|               (i_ad_iqcor)                             |                                                       ad_iqcor |         38 |         38 |       0 |    0 |    80 |      0 |      0 |          0 |
+|               i_ad_dcfilter                            |                                                 ad_dcfilter_60 |         40 |         40 |       0 |    0 |   176 |      0 |      0 |          1 |
+|               i_rx_pnmon                               |                            axi_ad9361_rx_pnmon__parameterized1 |         59 |         59 |       0 |    0 |   144 |      0 |      0 |          0 |
+|                 (i_rx_pnmon)                           |                            axi_ad9361_rx_pnmon__parameterized1 |          2 |          2 |       0 |    0 |   135 |      0 |      0 |          0 |
+|                 i_pnmon                                |                                                    ad_pnmon_61 |         57 |         57 |       0 |    0 |     9 |      0 |      0 |          0 |
+|               i_up_adc_channel                         |                                 up_adc_channel__parameterized1 |        137 |        137 |       0 |    0 |   347 |      0 |      0 |          0 |
+|                 (i_up_adc_channel)                     |                                 up_adc_channel__parameterized1 |         55 |         55 |       0 |    0 |   157 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized1__xdcDup__3 |         71 |         71 |       0 |    0 |   170 |      0 |      0 |          0 |
+|             i_rx_channel_3                             |                          axi_ad9361_rx_channel__parameterized2 |        289 |        281 |       0 |    8 |   778 |      0 |      0 |          3 |
+|               (i_ad_iqcor)                             |                                       ad_iqcor__parameterized0 |         38 |         38 |       0 |    0 |    80 |      0 |      0 |          0 |
+|               i_ad_dcfilter                            |                                                    ad_dcfilter |         40 |         40 |       0 |    0 |   176 |      0 |      0 |          1 |
+|               i_rx_pnmon                               |                            axi_ad9361_rx_pnmon__parameterized2 |         66 |         66 |       0 |    0 |   162 |      0 |      0 |          0 |
+|                 (i_rx_pnmon)                           |                            axi_ad9361_rx_pnmon__parameterized2 |          2 |          2 |       0 |    0 |   153 |      0 |      0 |          0 |
+|                 i_pnmon                                |                                                       ad_pnmon |         64 |         64 |       0 |    0 |     9 |      0 |      0 |          0 |
+|               i_up_adc_channel                         |                                 up_adc_channel__parameterized2 |        137 |        137 |       0 |    0 |   347 |      0 |      0 |          0 |
+|                 (i_up_adc_channel)                     |                                 up_adc_channel__parameterized2 |         55 |         55 |       0 |    0 |   157 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                                  up_xfer_cntrl__parameterized1 |         71 |         71 |       0 |    0 |   170 |      0 |      0 |          0 |
+|             i_up_adc_common                            |                                                  up_adc_common |        111 |        111 |       0 |    0 |   311 |      0 |      0 |          0 |
+|               (i_up_adc_common)                        |                                                  up_adc_common |         20 |         20 |       0 |    0 |   179 |      0 |      0 |          0 |
+|               i_clock_mon                              |                                        up_clock_mon__xdcDup__1 |         71 |         71 |       0 |    0 |    88 |      0 |      0 |          0 |
+|           i_tdd                                        |                                                 axi_ad9361_tdd |        196 |        196 |       0 |    0 |   724 |      0 |      0 |          0 |
+|             i_up_tdd_cntrl                             |                                                   up_tdd_cntrl |        194 |        194 |       0 |    0 |   723 |      0 |      0 |          0 |
+|               (i_up_tdd_cntrl)                         |                                                   up_tdd_cntrl |        185 |        185 |       0 |    0 |   705 |      0 |      0 |          0 |
+|           i_tx                                         |                                                  axi_ad9361_tx |        408 |        408 |       0 |    0 |  1277 |      0 |      0 |          0 |
+|             (i_tx)                                     |                                                  axi_ad9361_tx |         38 |         38 |       0 |    0 |    52 |      0 |      0 |          0 |
+|             i_tx_channel_0                             |                                          axi_ad9361_tx_channel |         74 |         74 |       0 |    0 |   222 |      0 |      0 |          0 |
+|               (i_tx_channel_0)                         |                                          axi_ad9361_tx_channel |         34 |         34 |       0 |    0 |    74 |      0 |      0 |          0 |
+|               i_up_dac_channel                         |                                                 up_dac_channel |         40 |         40 |       0 |    0 |   148 |      0 |      0 |          0 |
+|                 (i_up_dac_channel)                     |                                                 up_dac_channel |          2 |          2 |       0 |    0 |    78 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized3__xdcDup__1 |         38 |         38 |       0 |    0 |    70 |      0 |      0 |          0 |
+|             i_tx_channel_1                             |                          axi_ad9361_tx_channel__parameterized0 |         74 |         74 |       0 |    0 |   222 |      0 |      0 |          0 |
+|               (i_tx_channel_1)                         |                          axi_ad9361_tx_channel__parameterized0 |         33 |         33 |       0 |    0 |    74 |      0 |      0 |          0 |
+|               i_up_dac_channel                         |                                 up_dac_channel__parameterized0 |         41 |         41 |       0 |    0 |   148 |      0 |      0 |          0 |
+|                 (i_up_dac_channel)                     |                                 up_dac_channel__parameterized0 |          2 |          2 |       0 |    0 |    78 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized3__xdcDup__2 |         39 |         39 |       0 |    0 |    70 |      0 |      0 |          0 |
+|             i_tx_channel_2                             |                          axi_ad9361_tx_channel__parameterized1 |         62 |         62 |       0 |    0 |   222 |      0 |      0 |          0 |
+|               (i_tx_channel_2)                         |                          axi_ad9361_tx_channel__parameterized1 |         21 |         21 |       0 |    0 |    74 |      0 |      0 |          0 |
+|               i_up_dac_channel                         |                                 up_dac_channel__parameterized1 |         41 |         41 |       0 |    0 |   148 |      0 |      0 |          0 |
+|                 (i_up_dac_channel)                     |                                 up_dac_channel__parameterized1 |          2 |          2 |       0 |    0 |    78 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                       up_xfer_cntrl__parameterized3__xdcDup__3 |         39 |         39 |       0 |    0 |    70 |      0 |      0 |          0 |
+|             i_tx_channel_3                             |                          axi_ad9361_tx_channel__parameterized2 |         64 |         64 |       0 |    0 |   222 |      0 |      0 |          0 |
+|               (i_tx_channel_3)                         |                          axi_ad9361_tx_channel__parameterized2 |         23 |         23 |       0 |    0 |    74 |      0 |      0 |          0 |
+|               i_up_dac_channel                         |                                 up_dac_channel__parameterized2 |         41 |         41 |       0 |    0 |   148 |      0 |      0 |          0 |
+|                 (i_up_dac_channel)                     |                                 up_dac_channel__parameterized2 |          2 |          2 |       0 |    0 |    78 |      0 |      0 |          0 |
+|                 i_xfer_cntrl                           |                                  up_xfer_cntrl__parameterized3 |         39 |         39 |       0 |    0 |    70 |      0 |      0 |          0 |
+|             i_up_dac_common                            |                                                  up_dac_common |         98 |         98 |       0 |    0 |   337 |      0 |      0 |          0 |
+|               (i_up_dac_common)                        |                                                  up_dac_common |         21 |         21 |       0 |    0 |   172 |      0 |      0 |          0 |
+|               i_clock_mon                              |                                                   up_clock_mon |         42 |         42 |       0 |    0 |    88 |      0 |      0 |          0 |
+|               i_xfer_cntrl                             |                                  up_xfer_cntrl__parameterized4 |         27 |         27 |       0 |    0 |    55 |      0 |      0 |          0 |
+|           i_up_axi                                     |                                                         up_axi |        763 |        763 |       0 |    0 |   160 |      0 |      0 |          0 |
+|       axi_ad9361_adc_dma                               |                                    system_axi_ad9361_adc_dma_0 |        425 |        393 |      32 |    0 |   663 |      1 |      0 |          0 |
+|         inst                                           |                                                       axi_dmac |        425 |        393 |      32 |    0 |   663 |      1 |      0 |          0 |
+|           i_regmap                                     |                                                axi_dmac_regmap |        252 |        234 |      18 |    0 |   332 |      0 |      0 |          0 |
+|             (i_regmap)                                 |                                                axi_dmac_regmap |          1 |          1 |       0 |    0 |    73 |      0 |      0 |          0 |
+|             (i_regmap_request)                         |                                        axi_dmac_regmap_request |         27 |         27 |       0 |    0 |    88 |      0 |      0 |          0 |
+|             i_up_axi                                   |                                      up_axi__parameterized0_29 |        192 |        192 |       0 |    0 |   135 |      0 |      0 |          0 |
+|           i_transfer                                   |                                              axi_dmac_transfer |        173 |        159 |      14 |    0 |   331 |      1 |      0 |          0 |
+|             i_request_arb                              |                                               dmac_request_arb |        164 |        150 |      14 |    0 |   294 |      1 |      0 |          0 |
+|       axi_ad9361_dac_dma                               |                                    system_axi_ad9361_dac_dma_0 |        361 |        351 |      10 |    0 |   524 |      1 |      0 |          0 |
+|         inst                                           |                                       axi_dmac__parameterized0 |        361 |        351 |      10 |    0 |   524 |      1 |      0 |          0 |
+|           i_regmap                                     |                                axi_dmac_regmap__parameterized0 |        195 |        195 |       0 |    0 |   294 |      0 |      0 |          0 |
+|             (i_regmap)                                 |                                axi_dmac_regmap__parameterized0 |          1 |          1 |       0 |    0 |    73 |      0 |      0 |          0 |
+|             (i_regmap_request)                         |                        axi_dmac_regmap_request__parameterized0 |         40 |         40 |       0 |    0 |    85 |      0 |      0 |          0 |
+|             i_up_axi                                   |                                         up_axi__parameterized0 |        153 |        153 |       0 |    0 |   135 |      0 |      0 |          0 |
+|           i_transfer                                   |                              axi_dmac_transfer__parameterized0 |        166 |        156 |      10 |    0 |   230 |      1 |      0 |          0 |
+|             i_request_arb                              |                               dmac_request_arb__parameterized0 |        156 |        146 |      10 |    0 |   200 |      1 |      0 |          0 |
+|               i_src_dma_mm                             |                                                dmac_src_mm_axi |         45 |         45 |       0 |    0 |    51 |      0 |      0 |          0 |
+|       axi_cpu_interconnect                             |                                  system_axi_cpu_interconnect_0 |        656 |        595 |       0 |   61 |   682 |      0 |      0 |          0 |
+|         s00_couplers                                   |                                        s00_couplers_imp_WZLZH6 |        410 |        349 |       0 |   61 |   550 |      0 |      0 |          0 |
+|           auto_pc                                      |                      system_axi_cpu_interconnect_imp_auto_pc_0 |        410 |        349 |       0 |   61 |   550 |      0 |      0 |          0 |
+|             inst                                       |          axi_protocol_converter_v2_1_38_axi_protocol_converter |        410 |        349 |       0 |   61 |   550 |      0 |      0 |          0 |
+|               gen_axilite.gen_b2s_conv.axilite_b2s     |                             axi_protocol_converter_v2_1_38_b2s |        410 |        349 |       0 |   61 |   550 |      0 |      0 |          0 |
+|                 WR.aw_channel_0                        |                  axi_protocol_converter_v2_1_38_b2s_aw_channel |         83 |         83 |       0 |    0 |    86 |      0 |      0 |          0 |
+|                 RD.ar_channel_0                        |                  axi_protocol_converter_v2_1_38_b2s_ar_channel |         72 |         72 |       0 |    0 |    82 |      0 |      0 |          0 |
+|                 RD.r_channel_0                         |                   axi_protocol_converter_v2_1_38_b2s_r_channel |         61 |         14 |       0 |   47 |    24 |      0 |      0 |          0 |
+|                 SI_REG                                 |                  axi_register_slice_v2_1_37_axi_register_slice |        164 |        164 |       0 |    0 |   340 |      0 |      0 |          0 |
+|         xbar                                           |                         system_axi_cpu_interconnect_imp_xbar_0 |        246 |        246 |       0 |    0 |   132 |      0 |      0 |          0 |
+|           inst                                         |                              axi_crossbar_v2_1_39_axi_crossbar |        246 |        246 |       0 |    0 |   132 |      0 |      0 |          0 |
+|             gen_sasd.crossbar_sasd_0                   |                             axi_crossbar_v2_1_39_crossbar_sasd |        246 |        246 |       0 |    0 |   132 |      0 |      0 |          0 |
+|               reg_slice_r                              | axi_register_slice_v2_1_37_axic_register_slice__parameterized7 |        131 |        131 |       0 |    0 |    74 |      0 |      0 |          0 |
+|               addr_arbiter_inst                        |                         axi_crossbar_v2_1_39_addr_arbiter_sasd |         89 |         89 |       0 |    0 |    38 |      0 |      0 |          0 |
+|       axi_iic_main                                     |                                          system_axi_iic_main_0 |        380 |        370 |       0 |   10 |   374 |      0 |      0 |          0 |
+|         U0                                             |                                                        axi_iic |        380 |        370 |       0 |   10 |   374 |      0 |      0 |          0 |
+|           X_IIC                                        |                                                            iic |        380 |        370 |       0 |   10 |   374 |      0 |      0 |          0 |
+|             X_AXI_IPIF_SSP1                            |                                                  axi_ipif_ssp1 |        138 |        138 |       0 |    0 |    92 |      0 |      0 |          0 |
+|               AXI_LITE_IPIF_I                          |                                                  axi_lite_ipif |        121 |        121 |       0 |    0 |    64 |      0 |      0 |          0 |
+|                 I_SLAVE_ATTACHMENT                     |                                               slave_attachment |        121 |        121 |       0 |    0 |    64 |      0 |      0 |          0 |
+|             IIC_CONTROL_I                              |                                                    iic_control |        132 |        132 |       0 |    0 |   115 |      0 |      0 |          0 |
+|               (IIC_CONTROL_I)                          |                                                    iic_control |         61 |         61 |       0 |    0 |    75 |      0 |      0 |          0 |
+|             REG_INTERFACE_I                            |                                                  reg_interface |         62 |         62 |       0 |    0 |   124 |      0 |      0 |          0 |
+|       axi_spi                                          |                                               system_axi_spi_0 |        384 |        372 |      12 |    0 |   581 |      0 |      0 |          0 |
+|         U0                                             |                                                   axi_quad_spi |        384 |        372 |      12 |    0 |   581 |      0 |      0 |          0 |
+|           NO_DUAL_QUAD_MODE.QSPI_NORMAL                |                                               axi_quad_spi_top |        384 |        372 |      12 |    0 |   581 |      0 |      0 |          0 |
+|             QSPI_LEGACY_MD_GEN.QSPI_CORE_INTERFACE_I   |                                            qspi_core_interface |        290 |        278 |      12 |    0 |   510 |      0 |      0 |          0 |
+|               LOGIC_FOR_MD_0_GEN.SPI_MODULE_I          |                                             qspi_mode_0_module |         57 |         57 |       0 |    0 |    82 |      0 |      0 |          0 |
+|               FIFO_EXISTS.CLK_CROSS_I                  |                                          cross_clk_sync_fifo_1 |         35 |         35 |       0 |    0 |    53 |      0 |      0 |          0 |
+|               FIFO_EXISTS.RX_FIFO_II                   |                                                 xpm_fifo_async |         78 |         72 |       6 |    0 |   135 |      0 |      0 |          0 |
+|                 gnuram_async_fifo.xpm_fifo_base_inst   |                                                  xpm_fifo_base |         78 |         72 |       6 |    0 |   135 |      0 |      0 |          0 |
+|               FIFO_EXISTS.TX_FIFO_II                   |                                 xpm_fifo_async__parameterized1 |         79 |         73 |       6 |    0 |   125 |      0 |      0 |          0 |
+|                 gnuram_async_fifo.xpm_fifo_base_inst   |                                  xpm_fifo_base__parameterized0 |         79 |         73 |       6 |    0 |   125 |      0 |      0 |          0 |
+|             QSPI_LEGACY_MD_GEN.AXI_LITE_IPIF_I         |                                  axi_lite_ipif__parameterized0 |         95 |         95 |       0 |    0 |    70 |      0 |      0 |          0 |
+|               I_SLAVE_ATTACHMENT                       |                               slave_attachment__parameterized0 |         95 |         95 |       0 |    0 |    70 |      0 |      0 |          0 |
+|                 I_DECODER                              |                                address_decoder__parameterized0 |         71 |         71 |       0 |    0 |    33 |      0 |      0 |          0 |
+|       cpack                                            |                                                 system_cpack_0 |        107 |        107 |       0 |    0 |   130 |      0 |      0 |          0 |
+|         inst                                           |                                                    util_cpack2 |        107 |        107 |       0 |    0 |   130 |      0 |      0 |          0 |
+|           i_cpack                                      |                                               util_cpack2_impl |        107 |        107 |       0 |    0 |   130 |      0 |      0 |          0 |
+|             (i_cpack)                                  |                                               util_cpack2_impl |          0 |          0 |       0 |    0 |    65 |      0 |      0 |          0 |
+|             i_pack_shell                               |                                                     pack_shell |        107 |        107 |       0 |    0 |    65 |      0 |      0 |          0 |
+|               (i_pack_shell)                           |                                                     pack_shell |         17 |         17 |       0 |    0 |    57 |      0 |      0 |          0 |
+|               gen_network[0].i_ctrl_interconnect       |                                                   pack_network |         91 |         91 |       0 |    0 |     8 |      0 |      0 |          0 |
+|       cpm_rx                                           |                                                system_cpm_rx_0 |       6484 |       6090 |     386 |    8 |  8499 |      8 |     30 |         40 |
+|         inst                                           |                                        pluto_cpm_rx_controlled |       6484 |       6090 |     386 |    8 |  8499 |      8 |     30 |         40 |
+|           receiver                                     |                                         cpm_rx_manual_frontend |       6361 |       5967 |     386 |    8 |  8454 |      8 |     30 |         40 |
+|             adapter                                    |                                     cpm_rx_observation_adapter |         22 |         22 |       0 |    0 |    86 |      0 |      0 |          0 |
+|             detector                                   |                                                 cpm_h_detector |       6339 |       5945 |     386 |    8 |  8368 |      8 |     30 |         40 |
+|               (detector)                               |                                                 cpm_h_detector |         65 |         65 |       0 |    0 |     5 |      0 |      0 |          0 |
+|               correlations                             |                                           cpm_correlation_bank |       3689 |       3689 |       0 |    0 |  6544 |      0 |      0 |         24 |
+|                 (correlations)                         |                                           cpm_correlation_bank |       2683 |       2683 |       0 |    0 |  6484 |      0 |      0 |         24 |
+|                 templates                              |                                              cpm_template_rom6 |       1006 |       1006 |       0 |    0 |    60 |      0 |      0 |          0 |
+|               decoder                                  |                                            cpm_viterbi_decoder |       2586 |       2192 |     386 |    8 |  1819 |      8 |     30 |         16 |
+|                 traceback                              |                                         cpm_survivor_traceback |        140 |        138 |       2 |    0 |   109 |      0 |      2 |          0 |
+|                 engine                                 |                                             cpm_viterbi_engine |       2468 |       2076 |     384 |    8 |  1708 |      8 |     28 |         16 |
+|           quality                                      |                                               cpm_pn15_quality |        123 |        123 |       0 |    0 |    34 |      0 |      0 |          0 |
+|       cpm_rx_cdc                                       |                                            system_cpm_rx_cdc_0 |         32 |         32 |       0 |    0 |    63 |      0 |      1 |          0 |
+|         inst                                           |                                 util_axis_fifo__parameterized6 |         32 |         32 |       0 |    0 |    63 |      0 |      1 |          0 |
+|           i_address_gray                               |                                    fifo_address_gray_pipelined |         32 |         32 |       0 |    0 |    62 |      0 |      0 |          0 |
+|       cpm_rx_control                                   |                                        system_cpm_rx_control_0 |        111 |        111 |       0 |    0 |   336 |      0 |      0 |          0 |
+|         U0                                             |                                                       axi_gpio |        111 |        111 |       0 |    0 |   336 |      0 |      0 |          0 |
+|           gpio_core_1                                  |                                                      GPIO_Core |         34 |         34 |       0 |    0 |   244 |      0 |      0 |          0 |
+|             (gpio_core_1)                              |                                                      GPIO_Core |         34 |         34 |       0 |    0 |   116 |      0 |      0 |          0 |
+|             Dual.INPUT_DOUBLE_REGS5                    |                           xpm_cdc_array_single__parameterized1 |          0 |          0 |       0 |    0 |   128 |      0 |      0 |          0 |
+|           AXI_LITE_IPIF_I                              |                                  axi_lite_ipif__parameterized1 |         77 |         77 |       0 |    0 |    58 |      0 |      0 |          0 |
+|             I_SLAVE_ATTACHMENT                         |                               slave_attachment__parameterized1 |         77 |         77 |       0 |    0 |    58 |      0 |      0 |          0 |
+|               (I_SLAVE_ATTACHMENT)                     |                               slave_attachment__parameterized1 |         17 |         17 |       0 |    0 |    52 |      0 |      0 |          0 |
+|               I_DECODER                                |                                address_decoder__parameterized1 |         60 |         60 |       0 |    0 |     6 |      0 |      0 |          0 |
+|                 (I_DECODER)                            |                                address_decoder__parameterized1 |         58 |         58 |       0 |    0 |     6 |      0 |      0 |          0 |
+|       tx_upack                                         |                                              system_tx_upack_0 |         89 |         89 |       0 |    0 |   102 |      0 |      0 |          0 |
+|         inst                                           |                                                    util_upack2 |         89 |         89 |       0 |    0 |   102 |      0 |      0 |          0 |
+|           i_upack                                      |                                               util_upack2_impl |         89 |         89 |       0 |    0 |   102 |      0 |      0 |          0 |
+|             i_pack_shell                               |                                     pack_shell__parameterized0 |         89 |         89 |       0 |    0 |    54 |      0 |      0 |          0 |
+|               gen_input_buffer.i_ext_ctrl_interconnect |                                   pack_network__parameterized0 |         76 |         76 |       0 |    0 |     8 |      0 |      0 |          0 |
++--------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+
