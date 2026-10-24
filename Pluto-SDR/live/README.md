@@ -13,6 +13,14 @@ PN15 errors in 64 checked bits. Removing the attenuated TX1-to-RX2 coax should
 turn it red on the next search. Reconnecting the coax should return it to green
 without restarting TX. Stop TX mutes TX1 and puts the radio to sleep.
 
+Use **Receiver setup** to enter the RF carrier frequency and telemetry bit
+rate. The panel calculates the required complex IQ rate (`16 × bit rate`) and
+RX bandwidth. The ADC/IQ-rate field in the spectrum controls is read-only for
+this mode. The current FPGA detector requires the received CPM-H carrier at
+zero digital IF, so the AD9361 RX LO is set to the entered RF carrier. An
+offset-IF mode requires an FPGA NCO ahead of the detector and is not enabled by
+this image.
+
 The SSH fingerprint changes whenever this Pluto image is power-cycled. If the
 panel reports a host-key error, verify the new fingerprint over the direct USB
 connection and replace the value in the panel before starting TX.

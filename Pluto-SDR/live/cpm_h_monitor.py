@@ -49,6 +49,67 @@ class AcquisitionMonitor(QtCore.QThread):
             self.stop_event.wait(0.5)
 
 
+class ReceiverSetupDialog(QtWidgets.QDialog):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setWindowTitle("CPM-H receiver setup")
+        self.setMinimumWidth(520)
+        form = QtWidgets.QFormLayout(self)
+
+        self.carrier = QtWidgets.QDoubleSpinBox()
+        self.carrier.setRange(70, 6000)
+        self.carrier.setDecimals(6)
+        self.carrier.setValue(parent.tx_frequency.value())
+        self.carrier.setSuffix(" MHz")
+        form.addRow("RF carrier frequency", self.carrier)
+
+        self.bit_rate = QtWidgets.QDoubleSpinBox()
+        self.bit_rate.setRange(130.209, 500.0)
+        self.bit_rate.setDecimals(3)
+        self.bit_rate.setValue(parent.rate.value())
+        self.bit_rate.setSuffix(" kbit/s")
+        form.addRow("Telemetry bit rate", self.bit_rate)
+
+        self.samples = QtWidgets.QLabel("32 samples/dibit (fixed by this FPGA image)")
+        form.addRow("Detector sampling", self.samples)
+        self.iq_rate = QtWidgets.QLabel()
+        form.addRow("Calculated RX IQ rate", self.iq_rate)
+        self.bandwidth = QtWidgets.QLabel()
+        form.addRow("Calculated RX bandwidth", self.bandwidth)
+        self.rx_lo = QtWidgets.QLabel()
+        form.addRow("AD9361 RX LO", self.rx_lo)
+        self.digital_if = QtWidgets.QLabel("0 Hz — current FPGA image is zero-IF only")
+        form.addRow("FPGA frequency translation", self.digital_if)
+
+        note = QtWidgets.QLabel(
+            "The operator selects carrier frequency and bit rate. The application "
+            "derives the AD9361 IQ rate as 16 × bit rate. Moving the carrier away "
+            "from DC requires the planned FPGA NCO/frequency-correction stage.")
+        note.setWordWrap(True)
+        form.addRow(note)
+
+        buttons = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        form.addRow(buttons)
+        self.carrier.valueChanged.connect(self.refresh_values)
+        self.bit_rate.valueChanged.connect(self.refresh_values)
+        self.refresh_values()
+
+    def calculated(self):
+        sample_rate = int(round(self.bit_rate.value() * 1000.0 * 16.0))
+        bandwidth = int(min(3_000_000, max(1_000_000, sample_rate * 0.375)))
+        frequency = int(round(self.carrier.value() * 1e6))
+        return sample_rate, bandwidth, frequency
+
+    def refresh_values(self):
+        sample_rate, bandwidth, frequency = self.calculated()
+        self.iq_rate.setText(f"{sample_rate/1e6:.6f} MS/s")
+        self.bandwidth.setText(f"{bandwidth/1e6:.3f} MHz")
+        self.rx_lo.setText(f"{frequency/1e6:.6f} MHz (same as RF carrier)")
+
+
 class CpmWindow(SpectrumWindow):
     def __init__(self, uri, host_key):
         super().__init__(uri)
@@ -59,6 +120,10 @@ class CpmWindow(SpectrumWindow):
         panel = QtWidgets.QHBoxLayout()
         self.centralWidget().layout().insertLayout(0, panel)
         panel.addWidget(QtWidgets.QLabel("CPM-H TX"))
+
+        self.receiver_setup = QtWidgets.QPushButton("Receiver setup…")
+        self.receiver_setup.clicked.connect(self.open_receiver_setup)
+        panel.addWidget(self.receiver_setup)
 
         self.led = QtWidgets.QLabel("●  IDLE")
         self.led.setMinimumWidth(120)
@@ -103,11 +168,44 @@ class CpmWindow(SpectrumWindow):
 
         self.rx.setCurrentIndex(1)
         self.maxhold.setChecked(True)
+        self.sample_rate.setEnabled(False)
+        self.rf_bandwidth.setEnabled(False)
+        self.sample_rate.setToolTip("Calculated from telemetry bit rate: IQ rate = 16 × bit rate.")
+        self.rf_bandwidth.setToolTip("Calculated automatically by the CPM-H receiver setup.")
+        self.apply_receiver_values()
         self.status.setText("Ready. Requires TX1 → 30 dB attenuator → RX2.")
 
     def set_led(self, color, text):
         self.led.setText(f"●  {text}")
         self.led.setStyleSheet(f"color:{color};font-weight:700;font-size:15px")
+
+    def apply_receiver_values(self):
+        sample_rate = int(round(self.rate.value() * 1000.0 * 16.0))
+        bandwidth = int(min(3_000_000, max(1_000_000, sample_rate * 0.375)))
+        center = self.tx_frequency.value()
+        usable_span = sample_rate * 0.75 / 1e6
+        self.sample_rate.setValue(sample_rate / 1e6)
+        self.rf_bandwidth.setValue(bandwidth / 1e6)
+        self.start_freq.setValue(center - usable_span / 2)
+        self.stop_freq.setValue(center + usable_span / 2)
+
+    def open_receiver_setup(self):
+        dialog = ReceiverSetupDialog(self)
+        if dialog.exec() == QtWidgets.QDialog.Accepted:
+            self.rate.setValue(dialog.bit_rate.value())
+            self.tx_frequency.setValue(dialog.carrier.value())
+            self.apply_receiver_values()
+            sample_rate, bandwidth, frequency = dialog.calculated()
+            self.status.setText(
+                f"Receiver configured: carrier {frequency/1e6:.6f} MHz • "
+                f"bit rate {self.rate.value():.3f} kbit/s • IQ {sample_rate/1e6:.6f} MS/s • "
+                f"RX BW {bandwidth/1e6:.3f} MHz")
+
+    def disconnect_rx(self):
+        result = super().disconnect_rx()
+        self.sample_rate.setEnabled(False)
+        self.rf_bandwidth.setEnabled(False)
+        return result
 
     def configure_radio(self, sample_rate, bandwidth, frequency):
         command = (
@@ -167,7 +265,7 @@ class CpmWindow(SpectrumWindow):
 
         self.tx_start.setEnabled(False)
         self.tx_stop.setEnabled(True)
-        for control in (self.rate, self.tx_frequency, self.tx_gain, self.host_key):
+        for control in (self.receiver_setup, self.rate, self.tx_frequency, self.tx_gain, self.host_key):
             control.setEnabled(False)
         self.set_led("#ffbf00", "ACQUIRING")
         if not self.worker or not self.worker.isRunning():
@@ -216,7 +314,7 @@ class CpmWindow(SpectrumWindow):
             pass
         self.tx_start.setEnabled(True)
         self.tx_stop.setEnabled(False)
-        for control in (self.rate, self.tx_frequency, self.tx_gain, self.host_key):
+        for control in (self.receiver_setup, self.rate, self.tx_frequency, self.tx_gain, self.host_key):
             control.setEnabled(True)
         self.set_led("#9aa0a6", "IDLE")
         self.status.setText("TX stopped and muted.")
