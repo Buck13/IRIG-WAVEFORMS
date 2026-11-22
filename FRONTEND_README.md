@@ -10,3 +10,9 @@ This adds the first four receiver-front-end blocks:
 The implementation is a floating-point reference model intended to define
 the fixed-point FPGA architecture. It must be regression-tested against noisy
 waveforms before RTL coefficients are frozen.
+
+The current BER sweep is intentionally a gate, not a performance claim: the
+reduced four-state trellis is not yet sufficient for the full eight-bit pulse
+memory. `calibrate_soqpsk.py` exports the exact-pulse Q15 filter and measured
+branch-template coefficients; the next milestone replaces the reduced phase
+observation with multi-symbol Laurent branch correlations.
