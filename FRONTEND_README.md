@@ -16,3 +16,8 @@ reduced four-state trellis is not yet sufficient for the full eight-bit pulse
 memory. `calibrate_soqpsk.py` exports the exact-pulse Q15 filter and measured
 branch-template coefficients; the next milestone replaces the reduced phase
 observation with multi-symbol Laurent branch correlations.
+
+The experimental `soqpsk_full_trellis.py` models the full eight-bit pulse
+memory with 256 states and phase-increment templates. Its high-SNR regression
+is still failing until transmitter pulse discretization and branch timing are
+aligned; it is a WIP diagnostic, not a verified receiver block.
