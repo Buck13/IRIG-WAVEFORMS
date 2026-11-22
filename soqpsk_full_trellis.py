@@ -7,13 +7,15 @@ MEMORY=8
 NSTATES=1<<MEMORY
 
 def templates(sps=8):
-    t=np.empty((NSTATES,2,sps),complex)
+    t=np.empty((2,NSTATES,2,sps),complex)
     for state in range(NSTATES):
         hist=np.array([(state>>(MEMORY-1-i))&1 for i in range(MEMORY)],dtype=np.uint8)
         for bit in (0,1):
-            x=tx(np.r_[np.zeros(MEMORY,dtype=np.uint8),hist,bit],sps)
-            z=x[-sps:]
-            t[state,bit]=np.r_[0.0, np.angle(z[1:]*np.conj(z[:-1]))/np.pi]
+            for parity in (0,1):
+                prefix=np.zeros(MEMORY+parity,dtype=np.uint8)
+                x=tx(np.r_[prefix,hist,bit],sps)
+                z=x[-sps:]
+                t[parity,state,bit]=np.r_[0.0, np.angle(z[1:]*np.conj(z[:-1]))/np.pi]
     return t
 
 def decode(iq,sps=8,noise_var=1.0):
@@ -23,10 +25,12 @@ def decode(iq,sps=8,noise_var=1.0):
         block=x[k*sps:(k+1)*sps]
         block=np.r_[0.0, np.angle(block[1:]*np.conj(block[:-1]))/np.pi]
         nxt=np.full(NSTATES,-np.inf); prev=np.zeros(NSTATES,np.uint8); b0=-np.inf; b1=-np.inf
+        parity=k&1
         for s in np.flatnonzero(np.isfinite(pm)):
             for b in (0,1):
                 ns=((s<<1)|b)&(NSTATES-1)
-                score=pm[s]+float(np.real(np.vdot(temp[s,b],block)))/noise_var
+                diff=block-temp[parity,s,b]
+                score=pm[s]-float(np.vdot(diff,diff).real)/noise_var
                 if score>nxt[ns]: nxt[ns]=score; prev[ns]=s
                 if b==0: b0=max(b0,score)
                 else: b1=max(b1,score)
