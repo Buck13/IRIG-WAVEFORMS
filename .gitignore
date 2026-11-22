@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -226,3 +227,11 @@ Pluto-SDR/captures/cpm-h-demod-20261021-202252/
 
 # Vivado local workspace cache
 .Xil/
+__pycache__/
+*.wdb
+*.jou
+*.log
+*.pb
+xsim.dir/
+xelab.pb
+xvhdl.pb
