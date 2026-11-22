@@ -14,7 +14,11 @@ def irig_precoder(bits):
 
 def tx(bits,sps=8):
     alpha=irig_precoder(bits); g=tg_pulse(sps)
-    freq=np.convolve(np.repeat(alpha,sps),g,mode='full')[:len(alpha)*sps]
+    # CPM frequency pulses are driven by symbol-spaced impulses, not a
+    # sample-held NRZ waveform.  The 8-bit pulse response supplies memory.
+    impulses=np.zeros(len(alpha)*sps)
+    impulses[::sps]=alpha
+    freq=np.convolve(impulses,g,mode='full')[:len(alpha)*sps]
     phase=2*np.pi*.5*np.cumsum(freq)
     return np.exp(1j*phase)
 
