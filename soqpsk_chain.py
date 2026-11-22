@@ -1,7 +1,7 @@
 """End-to-end SOQPSK-TG reference chain and noisy regression."""
 from __future__ import annotations
 import numpy as np
-from soqpsk_frontend import tg_pulse, matched_filter, carrier_recover, timing_recover
+from soqpsk_frontend import tg_pulse, matched_filter, carrier_recover, timing_recover, coarse_carrier_recover, timing_align
 from soqpsk_trellis import decode
 
 def irig_precoder(bits):
@@ -36,6 +36,17 @@ def run(bits, ebn0_db=20, freq_offset=.015, phase_offset=.25, sps=8, seed=106):
     return {'clean':clean,'rx':rx,'matched':mf,'carrier_corrected':cr,
             'symbols':syms,'observations':obs,'decoded':decoded,'llr':llr,
             'ber':float(np.mean(decoded[:len(bits)-1] != bits[1:len(decoded)+1]))}
+
+def run_full(bits, ebn0_db=20, freq_offset=.0, phase_offset=.0, sps=8, seed=106):
+    """Full exact-pulse trellis after coarse carrier and timing alignment."""
+    from soqpsk_full_trellis import decode as full_decode
+    rng=np.random.default_rng(seed); clean=tx(np.r_[np.zeros(8,dtype=np.uint8),bits],sps)
+    n=np.arange(len(clean)); rotated=clean*np.exp(1j*(phase_offset+2*np.pi*freq_offset*n/sps))
+    noise=(rng.normal(size=len(clean))+1j*rng.normal(size=len(clean)))*10**(-ebn0_db/20)/np.sqrt(2)
+    rx=rotated+noise; mf=matched_filter(rx,sps); cr,w,p=coarse_carrier_recover(mf,sps); aligned,off=timing_align(cr,sps)
+    decoded,llr=full_decode(aligned,sps)
+    usable=min(len(bits),max(0,len(decoded)-8)); ber=float(np.mean(decoded[8:8+usable]!=bits[:usable])) if usable else 1.0
+    return {'decoded':decoded,'llr':llr,'ber':ber,'carrier_freq':w,'carrier_phase':p,'timing_offset':off}
 
 if __name__ == '__main__':
     bits=np.random.default_rng(7).integers(0,2,96,dtype=np.uint8)
