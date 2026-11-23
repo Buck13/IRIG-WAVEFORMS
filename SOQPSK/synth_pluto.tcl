@@ -1,11 +1,11 @@
 set src [file dirname [file normalize [info script]]]
 cd $src
-set out pluto_build_run
+set out pluto_build_bram
 file mkdir $out
 
 create_project soqpsk_pluto $out -part xc7z010clg400-1 -force
 add_files [list \
-  soqpsk_pulse_pkg.vhd soqpsk_template_pkg.vhd soqpsk_fir.vhd \
+  soqpsk_pulse_pkg.vhd soqpsk_template_pkg.vhd soqpsk_template_rom.vhd soqpsk_fir.vhd \
   soqpsk_sync_pkg.vhd soqpsk_carrier_nco.vhd soqpsk_carrier_loop.vhd \
   soqpsk_timing_ted.vhd soqpsk_linear_interp.vhd \
   soqpsk_correlation_bank.vhd soqpsk_trellis_scheduler.vhd \
