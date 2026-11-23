@@ -1,0 +1,4 @@
+library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all; use work.soqpsk_sync_pkg.all;
+entity soqpsk_carrier_nco is port(clk,reset,valid:in std_logic; i_in,q_in:in signed(15 downto 0); phase_word:in unsigned(7 downto 0); i_out,q_out:out signed(31 downto 0); valid_out:out std_logic); end;
+architecture rtl of soqpsk_carrier_nco is begin
+ process(clk) variable p:integer; variable ii,qq,qi,iq:signed(31 downto 0); begin if rising_edge(clk) then valid_out<='0'; if reset='1' then i_out<=(others=>'0');q_out<=(others=>'0'); else if valid='1' then p:=to_integer(phase_word(7 downto 3)); ii:=i_in*to_signed(COS_Q15(p),16); qq:=q_in*to_signed(COS_Q15(p),16); qi:=q_in*to_signed(SIN_Q15(p),16); iq:=i_in*to_signed(SIN_Q15(p),16); i_out<=resize(ii,32)+resize(qi,32); q_out<=resize(qq,32)-resize(iq,32); valid_out<='1'; end if; end if; end if; end process; end;
