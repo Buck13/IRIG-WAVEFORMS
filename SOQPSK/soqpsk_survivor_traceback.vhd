@@ -9,7 +9,7 @@ entity soqpsk_survivor_traceback is
   port(clk,reset:in std_logic;
        survivor_valid:in std_logic;
        survivor_state:in unsigned(7 downto 0);
-       survivor_prev:in unsigned(7 downto 7);
+       survivor_prev:in unsigned(7 downto 0);
        symbol_done:in std_logic;
        best_state:in unsigned(7 downto 0);
        decoded_valid:out std_logic;
@@ -19,7 +19,7 @@ end entity;
 
 architecture rtl of soqpsk_survivor_traceback is
   constant WORDS:positive:=DEPTH*256;
-  type ram_t is array(0 to WORDS-1) of std_logic;
+  type ram_t is array(0 to WORDS-1) of unsigned(7 downto 0);
   signal ram:ram_t;
   attribute ram_style:string;
   attribute ram_style of ram:signal is "block";
@@ -43,7 +43,7 @@ begin
       else
         if survivor_valid='1' then
           addr:=row*256+to_integer(survivor_state);
-          ram(addr)<=survivor_prev(7);
+          ram(addr)<=survivor_prev;
         end if;
         if symbol_done='1' and active='0' then
           if count<DEPTH then count<=count+1; end if;
@@ -53,8 +53,7 @@ begin
             active<='1'; trace_row<=row; trace_state<=best_state; step<=0;
           end if;
         elsif active='1' then
-          predecessor(7):=ram(trace_row*256+to_integer(trace_state));
-          predecessor(6 downto 0):=trace_state(7 downto 1);
+          predecessor:=ram(trace_row*256+to_integer(trace_state));
           if step=DEPTH-1 then
             decoded_bit<=trace_state(0); decoded_valid<='1'; active<='0';
           else
