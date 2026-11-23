@@ -21,7 +21,7 @@ begin
   busy<=busy_q; state_index<=to_unsigned(state_q,8);
   process(clk)
     variable s,ns0,ns1:integer; variable a0,a1:signed(METRIC_BITS-1 downto 0);
-    variable best0,best1:signed(METRIC_BITS-1 downto 0); variable li:integer;
+    variable best0,best1,final0,final1:signed(METRIC_BITS-1 downto 0); variable li:integer;
   begin
     if rising_edge(clk) then
       symbol_done<='0';
@@ -36,7 +36,10 @@ begin
         if a1>npm(ns1) then npm(ns1)<=a1; end if;
         if state_q=255 then
           pm<=npm; busy_q<='0'; symbol_done<='1';
-          best0:=npm(0); best1:=npm(1);
+          final0:=npm(0); final1:=npm(1);
+          if ns0=0 and a0>final0 then final0:=a0; end if;
+          if ns1=1 and a1>final1 then final1:=a1; end if;
+          best0:=final0; best1:=final1;
           if best1>best0 then decoded_bit<='1'; else decoded_bit<='0'; end if;
           li:=to_integer(best0-best1); if li>127 then li:=127; elsif li < -128 then li:=-128; end if; llr<=to_signed(li,8);
         else state_q<=state_q+1; end if;
