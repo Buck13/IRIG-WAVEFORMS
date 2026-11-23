@@ -1,6 +1,6 @@
 set src [file dirname [file normalize [info script]]]
 cd $src
-set out pluto_build_bram
+set out pluto_build_nco
 file mkdir $out
 
 create_project soqpsk_pluto $out -part xc7z010clg400-1 -force
