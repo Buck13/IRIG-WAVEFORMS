@@ -8,7 +8,7 @@ add_files [list \
   soqpsk_pulse_pkg.vhd soqpsk_template_pkg.vhd soqpsk_template_rom.vhd soqpsk_fir.vhd \
   soqpsk_sync_pkg.vhd soqpsk_carrier_nco.vhd soqpsk_carrier_loop.vhd \
   soqpsk_timing_ted.vhd soqpsk_linear_interp.vhd \
-  soqpsk_correlation_bank.vhd soqpsk_trellis_scheduler.vhd \
+  soqpsk_correlation_bank.vhd soqpsk_trellis_scheduler.vhd soqpsk_survivor_traceback.vhd \
   soqpsk_rx_core.vhd soqpsk_stream_chain.vhd]
 set_property file_type {VHDL 2008} [get_files *.vhd]
 update_compile_order -fileset sources_1
